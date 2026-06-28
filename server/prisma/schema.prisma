@@ -1,0 +1,194 @@
+// Prisma Schema for Posyandu Information System
+// Database: PostgreSQL (NeonDB)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================
+// Enums
+// ========================
+
+enum Role {
+  ADMIN
+  CADRE
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+// ========================
+// User
+// ========================
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatar    String?
+  role      Role     @default(CADRE)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  articles  Article[]
+  galleries Gallery[]
+
+  @@map("users")
+}
+
+// ========================
+// Article
+// ========================
+
+model Article {
+  id             String        @id @default(cuid())
+  title          String
+  slug           String        @unique
+  thumbnail      String?
+  content        String        @db.Text
+  excerpt        String?       @db.Text
+  status         ArticleStatus @default(DRAFT)
+  publishDate    DateTime?     @map("publish_date")
+  seoTitle       String?       @map("seo_title")
+  seoDescription String?       @map("seo_description") @db.Text
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  // Foreign keys
+  categoryId String?  @map("category_id")
+  authorId   String   @map("author_id")
+
+  // Relations
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags     ArticleTag[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([publishDate])
+  @@map("articles")
+}
+
+// ========================
+// Category
+// ========================
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  articles Article[]
+
+  @@map("categories")
+}
+
+// ========================
+// Tag
+// ========================
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  // Relations
+  articles ArticleTag[]
+
+  @@map("tags")
+}
+
+// ========================
+// ArticleTag (Many-to-Many join table)
+// ========================
+
+model ArticleTag {
+  articleId String @map("article_id")
+  tagId     String @map("tag_id")
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@map("article_tags")
+}
+
+// ========================
+// Gallery
+// ========================
+
+model Gallery {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  imageUrl    String   @map("image_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Foreign key
+  uploadedById String @map("uploaded_by_id")
+
+  // Relations
+  uploadedBy User @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([uploadedById])
+  @@map("galleries")
+}
+
+// ========================
+// Program
+// ========================
+
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  image       String?
+  description String   @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("programs")
+}
+
+// ========================
+// Schedule
+// ========================
+
+model Schedule {
+  id           String   @id @default(cuid())
+  activityName String   @map("activity_name")
+  description  String?  @db.Text
+  date         DateTime
+  time         String
+  location     String
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([date])
+  @@map("schedules")
+}
+
+// ========================
+// WebsiteSetting (key-value store)
+// ========================
+
+model WebsiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+
+  @@map("website_settings")
+}
