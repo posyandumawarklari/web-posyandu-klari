@@ -33,6 +33,7 @@ const formatUser = (user) => ({
   name: user.name,
   email: user.email,
   avatar: user.avatar,
+  phone: user.phone,
   role: user.role,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,

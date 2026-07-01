@@ -6,20 +6,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const menuItems = [
-  { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/admin/artikel', icon: FileText, label: 'Artikel' },
-  { to: '/admin/kategori', icon: FolderOpen, label: 'Kategori' },
-  { to: '/admin/tag', icon: Tag, label: 'Tag' },
-  { to: '/admin/program', icon: Stethoscope, label: 'Program' },
-  { to: '/admin/galeri', icon: Image, label: 'Galeri' },
-  { to: '/admin/jadwal', icon: CalendarDays, label: 'Jadwal' },
-];
-
-const adminOnlyItems = [
-  { to: '/admin/pengguna', icon: Users, label: 'Pengguna' },
-  { to: '/admin/pengaturan', icon: Settings, label: 'Pengaturan' },
-];
 
 export default function Sidebar({ open, onClose }) {
   const { pathname } = useLocation();
@@ -36,13 +22,30 @@ export default function Sidebar({ open, onClose }) {
     navigate('/login');
   };
 
+  const basePath = isAdmin ? '/admin' : '/dashboard';
+
+  const menuItems = [
+    { to: basePath, icon: LayoutDashboard, label: 'Dashboard', end: true },
+    { to: `${basePath}/artikel`, icon: FileText, label: 'Artikel' },
+    { to: `${basePath}/kategori`, icon: FolderOpen, label: 'Kategori' },
+    { to: `${basePath}/tag`, icon: Tag, label: 'Tag' },
+    { to: `${basePath}/program`, icon: Stethoscope, label: 'Program' },
+    { to: `${basePath}/galeri`, icon: Image, label: 'Galeri' },
+    { to: `${basePath}/jadwal`, icon: CalendarDays, label: 'Jadwal' },
+  ];
+
+  const adminOnlyItems = [
+    { to: '/admin/pengguna', icon: Users, label: 'Pengguna' },
+    { to: '/admin/pengaturan', icon: Settings, label: 'Pengaturan' },
+  ];
+
   const allItems = isAdmin ? [...menuItems, ...adminOnlyItems] : menuItems;
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-5 border-b border-slate-200 dark:border-slate-700">
-        <Link to="/admin" className="flex items-center gap-2" onClick={onClose}>
+        <Link to={basePath} className="flex items-center gap-2" onClick={onClose}>
           <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
             <Heart className="w-4 h-4 text-white" />
           </div>
@@ -78,15 +81,19 @@ export default function Sidebar({ open, onClose }) {
       {/* User / Logout */}
       <div className="border-t border-slate-200 dark:border-slate-700 p-3 space-y-1">
         <Link
-          to="/admin/profil"
+          to={`${basePath}/profil`}
           onClick={onClose}
           className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-            isActive('/admin/profil')
+            isActive(`${basePath}/profil`)
               ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
               : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
           }`}
         >
-          <User className="w-[18px] h-[18px]" />
+          {user?.avatar ? (
+            <img src={user.avatar} alt="Profile" className="w-[18px] h-[18px] rounded-full object-cover" />
+          ) : (
+            <User className="w-[18px] h-[18px]" />
+          )}
           {user?.name || 'Profil'}
         </Link>
         <button

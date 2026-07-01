@@ -31,6 +31,11 @@ api.interceptors.response.use(
 
     // Token expired — try refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
+      // Do not attempt refresh or redirect if the request was to the login endpoint
+      if (originalRequest.url.includes('/auth/login')) {
+        return Promise.reject(error);
+      }
+
       originalRequest._retry = true;
 
       const refreshToken = localStorage.getItem('refreshToken');
@@ -75,4 +80,5 @@ api.interceptors.response.use(
   }
 );
 
+export { api };
 export default api;

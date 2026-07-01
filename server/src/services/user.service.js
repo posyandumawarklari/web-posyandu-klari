@@ -54,6 +54,10 @@ const update = async (id, data, avatarFile) => {
 
   const updateData = { ...data };
 
+  if (updateData.password) {
+    updateData.password = await bcrypt.hash(updateData.password, 12);
+  }
+
   if (avatarFile) {
     if (user.avatar) await deleteImage(user.avatar);
     const result = await uploadEntityImage(avatarFile.buffer, 'avatars');

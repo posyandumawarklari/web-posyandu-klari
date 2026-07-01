@@ -29,8 +29,12 @@ export default function AdminHeader({ onMenuClick }) {
         </button>
 
         <div className="flex items-center gap-3 pl-3 border-l border-slate-200 dark:border-slate-700">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold">
-            {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold overflow-hidden">
+            {user?.avatar ? (
+              <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+            ) : (
+              user?.name?.charAt(0)?.toUpperCase() || 'U'
+            )}
           </div>
           <div className="hidden sm:block">
             <p className="text-sm font-medium text-slate-900 dark:text-white">{user?.name}</p>

@@ -16,8 +16,12 @@ const createFormData = (data, fileField = null) => {
   return formData;
 };
 
-const multipartConfig = { headers: { 'Content-Type': 'multipart/form-data' } };
-
+// Helper for multipart requests
+const multipartConfig = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+};
 // Dashboard
 export const dashboardService = {
   getStats: () => api.get('/dashboard/stats'),

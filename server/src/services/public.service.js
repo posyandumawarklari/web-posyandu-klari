@@ -79,7 +79,7 @@ const getArticles = async ({ skip, limit, search, categorySlug, tag }) => {
  * Get single article by slug (public)
  */
 const getArticleBySlug = async (slug) => {
-  const article = await prisma.article.findUnique({
+  const article = await prisma.article.findFirst({
     where: { slug, status: 'PUBLISHED' },
     select: {
       id: true, title: true, slug: true, thumbnail: true,

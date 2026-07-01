@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Heart, Loader2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
 
 const loginSchema = z.object({
@@ -34,11 +35,22 @@ export default function LoginPage() {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      await login(data.email, data.password);
-      navigate(from, { replace: true });
+      const userData = await login(data.email, data.password);
+      
+      // Determine redirection based on role, unless 'from' is already set to a specific deep link
+      if (location.state?.from) {
+        navigate(from, { replace: true });
+      } else {
+        if (userData.role === 'ADMIN') {
+          navigate('/admin/dashboard', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
+      }
     } catch (error) {
-      const msg = error.response?.data?.message || 'Login gagal.';
-      setError('root', { message: msg });
+      const msg = error.response?.data?.message || 'Email atau password salah.';
+      setError('root', { type: 'manual', message: msg });
+      toast.error(msg); // Add toast for foolproof visibility
     } finally {
       setIsLoading(false);
     }

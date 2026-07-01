@@ -1,4 +1,5 @@
 const cloudinary = require('../config/cloudinary');
+const { Readable } = require('stream');
 
 /**
  * Upload an image buffer to Cloudinary
@@ -29,7 +30,7 @@ const uploadImage = (fileBuffer, folder = 'posyandu') => {
       }
     );
 
-    uploadStream.end(fileBuffer);
+    Readable.from(fileBuffer).pipe(uploadStream);
   });
 };
 

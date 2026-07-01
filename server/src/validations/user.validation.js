@@ -14,9 +14,9 @@ const createUserSchema = z.object({
   password: z
     .string({ required_error: 'Password wajib diisi' })
     .min(6, 'Password minimal 6 karakter'),
-  role: z.enum(['ADMIN', 'CADRE'], {
+  role: z.enum(['ADMIN', 'CADRE', 'USER'], {
     required_error: 'Role wajib diisi',
-    invalid_type_error: 'Role harus ADMIN atau CADRE',
+    invalid_type_error: 'Role harus ADMIN, CADRE, atau USER',
   }),
 });
 
@@ -33,8 +33,12 @@ const updateUserSchema = z.object({
     .toLowerCase()
     .trim()
     .optional(),
-  role: z.enum(['ADMIN', 'CADRE'], {
-    invalid_type_error: 'Role harus ADMIN atau CADRE',
+  password: z
+    .string()
+    .min(6, 'Password minimal 6 karakter')
+    .optional(),
+  role: z.enum(['ADMIN', 'CADRE', 'USER'], {
+    invalid_type_error: 'Role harus ADMIN, CADRE, atau USER',
   }).optional(),
 });
 

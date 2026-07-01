@@ -11,4 +11,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🌐 CORS Origin: ${process.env.CORS_ORIGIN || '*'}`);
+  console.log(process.env.CLOUDINARY_CLOUD_NAME);
+  console.log("cwd:", process.cwd());
+  console.log("__dirname:", __dirname);
 });

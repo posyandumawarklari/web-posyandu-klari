@@ -12,15 +12,15 @@ async function main() {
   // ========================
   // 1. Create Admin User
   // ========================
-  const hashedPassword = await bcrypt.hash('admin123', 12);
+  const hashedAdminPassword = await bcrypt.hash('admin123', 12);
 
   const admin = await prisma.user.upsert({
     where: { email: 'admin@posyandu.id' },
-    update: {},
+    update: { password: hashedAdminPassword },
     create: {
       name: 'Administrator',
       email: 'admin@posyandu.id',
-      password: hashedPassword,
+      password: hashedAdminPassword,
       role: 'ADMIN',
     },
   });
@@ -29,15 +29,15 @@ async function main() {
   // ========================
   // 2. Create Cadre User
   // ========================
-  const cadrePassword = await bcrypt.hash('kader123', 12);
+  const hashedKaderPassword = await bcrypt.hash('kader123', 12);
 
   const cadre = await prisma.user.upsert({
     where: { email: 'kader@posyandu.id' },
-    update: {},
+    update: { password: hashedKaderPassword },
     create: {
       name: 'Kader Posyandu',
       email: 'kader@posyandu.id',
-      password: cadrePassword,
+      password: hashedKaderPassword,
       role: 'CADRE',
     },
   });
@@ -142,28 +142,32 @@ async function main() {
       activityName: 'Posyandu Rutin Bulanan',
       description: 'Kegiatan posyandu rutin meliputi penimbangan balita, imunisasi, dan penyuluhan kesehatan.',
       date: new Date(now.getFullYear(), now.getMonth() + 1, 10),
-      time: '08:00 - 12:00',
+      startTime: '08:00',
+      endTime: '12:00',
       location: 'Balai RT 03/RW 05',
     },
     {
       activityName: 'Pemberian Vitamin A',
       description: 'Pemberian suplemen Vitamin A untuk balita usia 6-59 bulan.',
       date: new Date(now.getFullYear(), now.getMonth() + 1, 15),
-      time: '08:00 - 11:00',
+      startTime: '08:00',
+      endTime: '11:00',
       location: 'Posyandu Melati',
     },
     {
       activityName: 'Penyuluhan MPASI',
       description: 'Demo masak dan penyuluhan tentang Makanan Pendamping ASI untuk ibu-ibu.',
       date: new Date(now.getFullYear(), now.getMonth() + 1, 20),
-      time: '09:00 - 11:30',
+      startTime: '09:00',
+      endTime: '11:30',
       location: 'Aula Kelurahan',
     },
     {
       activityName: 'Pemeriksaan Ibu Hamil',
       description: 'Pemeriksaan kehamilan rutin oleh bidan dan pemberian tablet tambah darah.',
       date: new Date(now.getFullYear(), now.getMonth() + 1, 25),
-      time: '08:00 - 12:00',
+      startTime: '08:00',
+      endTime: '12:00',
       location: 'Puskesmas Kecamatan',
     },
   ];

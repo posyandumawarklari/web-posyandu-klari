@@ -15,6 +15,8 @@ const ProgramsPage = lazy(() => import('./pages/public/ProgramsPage'));
 const GalleryPage = lazy(() => import('./pages/public/GalleryPage'));
 const SchedulePage = lazy(() => import('./pages/public/SchedulePage'));
 const ContactPage = lazy(() => import('./pages/public/ContactPage'));
+const AboutPage = lazy(() => import('./pages/public/AboutPage'));
+const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'));
 
 // ─── Lazy-loaded Auth Pages ────────────────────────
 const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
@@ -48,54 +50,63 @@ export default function App() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        {/* ── Public Routes ────────────────────── */}
         <Route element={<PublicLayout />}>
           <Route index element={<HomePage />} />
           <Route path="artikel" element={<ArticlesPage />} />
           <Route path="artikel/:slug" element={<ArticleDetailPage />} />
           <Route path="program" element={<ProgramsPage />} />
+          <Route path="profil" element={<AboutPage />} />
           <Route path="galeri" element={<GalleryPage />} />
           <Route path="jadwal" element={<SchedulePage />} />
           <Route path="kontak" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         {/* ── Auth Route ───────────────────────── */}
         <Route path="login" element={<LoginPage />} />
 
-        {/* ── Admin Routes ─────────────────────── */}
+        {/* ── Cadre Routes (Dashboard) ────────── */}
         <Route
-          path="admin"
+          path="dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="CADRE">
               <AdminLayout />
             </ProtectedRoute>
           }
         >
           <Route index element={<Dashboard />} />
           <Route path="artikel" element={<AdminArticles />} />
-          <Route path="artikel/baru" element={<AdminArticleForm />} />
-          <Route path="artikel/:id/edit" element={<AdminArticleForm />} />
+          <Route path="artikel/tambah" element={<AdminArticleForm />} />
+          <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
           <Route path="kategori" element={<AdminCategories />} />
           <Route path="tag" element={<AdminTags />} />
           <Route path="program" element={<AdminPrograms />} />
           <Route path="galeri" element={<AdminGallery />} />
           <Route path="jadwal" element={<AdminSchedules />} />
-          <Route
-            path="pengguna"
-            element={
-              <ProtectedRoute requiredRole="ADMIN">
-                <AdminUsers />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="pengaturan"
-            element={
-              <ProtectedRoute requiredRole="ADMIN">
-                <AdminSettings />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="profil" element={<AdminProfile />} />
+        </Route>
+
+        {/* ── Admin Routes ─────────────────────── */}
+        <Route
+          path="admin"
+          element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="artikel" element={<AdminArticles />} />
+          <Route path="artikel/tambah" element={<AdminArticleForm />} />
+          <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
+          <Route path="kategori" element={<AdminCategories />} />
+          <Route path="tag" element={<AdminTags />} />
+          <Route path="program" element={<AdminPrograms />} />
+          <Route path="galeri" element={<AdminGallery />} />
+          <Route path="jadwal" element={<AdminSchedules />} />
+          <Route path="pengguna" element={<AdminUsers />} />
+          <Route path="pengaturan" element={<AdminSettings />} />
           <Route path="profil" element={<AdminProfile />} />
         </Route>
 

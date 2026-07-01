@@ -14,7 +14,8 @@ const scheduleSchema = z.object({
   activityName: z.string({ required_error: 'Nama kegiatan wajib diisi' }).min(3, 'Nama minimal 3 karakter').max(200).trim(),
   description: z.string().max(1000).optional().nullable(),
   date: z.string({ required_error: 'Tanggal wajib diisi' }),
-  time: z.string({ required_error: 'Waktu wajib diisi' }).min(3, 'Format waktu tidak valid'),
+  startTime: z.string({ required_error: 'Waktu mulai wajib diisi' }).min(3, 'Format waktu tidak valid'),
+  endTime: z.string({ required_error: 'Waktu selesai wajib diisi' }).min(3, 'Format waktu tidak valid'),
   location: z.string({ required_error: 'Lokasi wajib diisi' }).min(3, 'Lokasi minimal 3 karakter').max(200).trim(),
 });
 

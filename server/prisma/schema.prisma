@@ -17,6 +17,7 @@ datasource db {
 enum Role {
   ADMIN
   CADRE
+  USER
 }
 
 enum ArticleStatus {
@@ -34,6 +35,7 @@ model User {
   email     String   @unique
   password  String
   avatar    String?
+  phone     String?
   role      Role     @default(CADRE)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -172,7 +174,8 @@ model Schedule {
   activityName String   @map("activity_name")
   description  String?  @db.Text
   date         DateTime
-  time         String
+  startTime    String   @map("start_time")
+  endTime      String   @map("end_time")
   location     String
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")

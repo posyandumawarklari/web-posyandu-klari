@@ -61,6 +61,7 @@ const scheduleRoutes = require('./routes/schedule.routes');
 const settingRoutes = require('./routes/setting.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const publicRoutes = require('./routes/public.routes');
+const uploadRoutes = require('./routes/upload.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -73,6 +74,7 @@ app.use('/api/schedules', scheduleRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // ---------------------
 // Error Handling
