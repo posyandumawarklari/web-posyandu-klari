@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { usePublicArticle } from '../../hooks/usePublicData';
 import Skeleton from '../../components/ui/Skeleton';
 import { getImageUrl, formatDate } from '../../utils/format';
-import { ArrowLeft, Tag as TagIcon, Share2, FileText } from 'lucide-react';
+import { ArrowLeft, Share2, FileText, MoreHorizontal, BadgeCheck, ChevronRight } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
 export default function ArticleDetailPage() {
@@ -12,34 +12,39 @@ export default function ArticleDetailPage() {
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
+  // ── LOADING STATE ──
   if (isLoading) {
     return (
-      <div className="bg-slate-50 dark:bg-slate-900 min-h-screen py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <Skeleton className="h-8 w-24 mb-8" />
-          <div className="text-center space-y-4 mb-10">
-            <Skeleton className="h-6 w-32 mx-auto" />
-            <Skeleton className="h-12 w-3/4 mx-auto" />
-            <Skeleton className="h-4 w-48 mx-auto" />
-          </div>
-          <Skeleton className="w-full aspect-[21/9] rounded-3xl mb-12" />
-          <div className="space-y-4">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
+      <div className="bg-surface-50 dark:bg-gray-900 min-h-screen pb-16">
+        <Skeleton className="w-full h-[400px] md:h-[500px] rounded-none" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative -mt-12 md:-mt-24 z-20">
+          <div className="bg-white dark:bg-gray-800 rounded-[2.5rem] p-6 sm:p-10 shadow-soft border border-surface-100 dark:border-gray-700">
+            <div className="flex justify-between items-center mb-8">
+              <div className="flex gap-3"><Skeleton className="w-12 h-12 rounded-full" /><Skeleton className="w-32 h-5 mt-3 rounded" /></div>
+              <Skeleton className="w-10 h-10 rounded-full" />
+            </div>
+            <Skeleton className="h-10 w-full mb-3 rounded" />
+            <Skeleton className="h-10 w-3/4 mb-8 rounded" />
+            <Skeleton className="h-4 w-32 mb-8 rounded" />
+            <div className="space-y-4">
+              <Skeleton className="h-4 w-full rounded" />
+              <Skeleton className="h-4 w-full rounded" />
+              <Skeleton className="h-4 w-5/6 rounded" />
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
+  // ── ERROR / NOT FOUND STATE ──
   if (!article) {
     return (
-      <div className="bg-slate-50 dark:bg-slate-900 min-h-screen flex items-center justify-center p-4">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Artikel tidak ditemukan</h2>
-          <p className="text-slate-600 dark:text-slate-400 mb-6">Artikel yang Anda cari mungkin telah dihapus atau URL salah.</p>
-          <button onClick={() => navigate('/artikel')} className="px-6 py-2.5 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 transition-colors">
+      <div className="bg-surface-50 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4 pt-24">
+        <div className="text-center bg-white dark:bg-gray-800 p-10 rounded-[2rem] shadow-soft max-w-md w-full border border-surface-200 dark:border-gray-700">
+          <h2 className="text-2xl font-heading font-bold text-content dark:text-white mb-3">Artikel tidak ditemukan</h2>
+          <p className="text-content-muted dark:text-gray-400 mb-8 font-medium">Artikel yang Anda cari mungkin telah dihapus atau URL salah.</p>
+          <button onClick={() => navigate('/artikel')} className="px-8 py-3.5 bg-primary-800 text-white font-medium rounded-xl hover:bg-primary-900 transition-all shadow-sm hover:shadow-soft w-full">
             Kembali ke Daftar Artikel
           </button>
         </div>
@@ -48,132 +53,161 @@ export default function ArticleDetailPage() {
   }
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 min-h-screen py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
+    <div className="bg-surface-50 dark:bg-gray-900 min-h-screen pb-16 relative">
+      
+      {/* ── 1. Hero Image / Background Area ── */}
+      <div className="relative w-full h-[400px] md:h-[500px] bg-surface-200 dark:bg-gray-800">
+        {article.thumbnail ? (
+          <img 
+            src={getImageUrl(article.thumbnail)} 
+            alt={article.title} 
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <FileText className="w-20 h-20 text-surface-400 dark:text-gray-600 opacity-30" />
+          </div>
+        )}
         
-        {/* Back Button */}
-        <button 
-          onClick={() => navigate('/artikel')}
-          className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors mb-8"
-        >
-          <ArrowLeft className="w-4 h-4" /> Kembali
-        </button>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/10"></div>
 
-        <article>
-          {/* Article Header */}
-          <header className="text-center mb-10">
-            {article.category && (
-              <Link 
-                to={`/artikel?category=${article.category.slug}`}
-                className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 text-sm font-semibold rounded-full mb-6"
-              >
-                {article.category.name}
-              </Link>
-            )}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
-              {article.title}
-            </h1>
-            
-            <div className="flex items-center justify-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                  {article.author?.avatar ? (
-                    <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                      {article.author?.name?.charAt(0) || 'U'}
-                    </div>
-                  )}
-                </div>
-                <span className="font-medium text-slate-900 dark:text-slate-300">{article.author?.name}</span>
+        <div className="absolute top-0 inset-x-0 pt-24 md:pt-28 px-4 sm:px-6 md:px-10 flex justify-between items-center z-10 max-w-7xl mx-auto">
+          <button 
+            onClick={() => navigate('/artikel')}
+            className="w-11 h-11 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 flex items-center justify-center text-white transition-all shadow-sm"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          
+          <span className="text-white font-semibold tracking-wide drop-shadow-md text-sm md:text-base">
+            {article.category?.name || 'Artikel Edukasi'}
+          </span>
+          
+          <button className="w-11 h-11 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 flex items-center justify-center text-white transition-all shadow-sm">
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* ── 2. Main Content Card ── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative -mt-16 md:-mt-24 z-20">
+        {/* Tambahkan overflow-hidden disini agar tidak ada apapun yang keluar dari kotak putih */}
+        <div className="bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border border-white/50 dark:border-gray-700/50 rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-10 lg:p-12 shadow-2xl overflow-hidden">
+          
+          {/* Author Info & Share Row */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm bg-primary-50 dark:bg-gray-800">
+                {article.author?.avatar ? (
+                  <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full text-primary-800 flex items-center justify-center font-bold text-lg">
+                    {article.author?.name?.charAt(0) || 'U'}
+                  </div>
+                )}
               </div>
-              <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
-              <span>{formatDate(article.publishDate)}</span>
+              <div>
+                <h3 className="font-bold text-content dark:text-white flex items-center gap-1 text-base md:text-lg">
+                  {article.author?.name || 'Tim Redaksi'}
+                  <BadgeCheck className="w-4 h-4 text-blue-500" />
+                </h3>
+                <span className="text-xs md:text-sm font-medium text-content-muted dark:text-gray-400">
+                  {formatDate(article.publishDate)}
+                </span>
+              </div>
             </div>
-          </header>
+            
+            <button className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-surface-200 dark:border-gray-600 flex items-center justify-center text-content hover:bg-surface-100 dark:text-white dark:hover:bg-gray-700 transition-colors shadow-sm shrink-0">
+              <Share2 className="w-4 h-4 md:w-5 md:h-5" />
+            </button>
+          </div>
 
-          {/* Featured Image */}
-          {article.thumbnail && (
-            <div className="w-full rounded-3xl overflow-hidden mb-12 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200/50 dark:border-slate-800">
-              <img 
-                src={getImageUrl(article.thumbnail)} 
-                alt={article.title} 
-                className="w-full max-h-[500px] object-cover"
-              />
-            </div>
-          )}
+          {/* Judul Artikel */}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-content dark:text-white tracking-tight mb-8 leading-[1.2]">
+            {article.title}
+          </h1>
 
-          {/* Content */}
-          <div className="prose prose-lg dark:prose-invert prose-emerald max-w-none mb-12"
+          {/* Info Row (Kategori) */}
+          <div className="flex items-center gap-3 py-4 border-t border-b border-surface-200/50 dark:border-gray-700/50 mb-10 text-sm font-semibold text-content dark:text-gray-200">
+            <span className="px-4 py-1.5 bg-primary-50 text-primary-800 dark:bg-primary-900/30 dark:text-primary-400 rounded-full border border-primary-100 dark:border-primary-800/50">
+              {article.category?.name || 'Edukasi Kesehatan'}
+            </span>
+          </div>
+
+          {/* Isi Konten Artikel (Area yang Diperbaiki) */}
+          {/* Menambahkan break-words, w-full, overflow-x-hidden, dan memaksa p tag untuk whitespace-normal */}
+          <div className="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none w-full break-words overflow-x-hidden mb-16 prose-headings:font-heading prose-headings:font-bold prose-a:text-primary-800 prose-img:rounded-2xl [&_*]:whitespace-normal"
                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }} 
           />
 
-          {/* Tags & Share */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 py-6 border-t border-b border-slate-200 dark:border-slate-800 mb-16">
-            <div className="flex flex-wrap items-center gap-2">
-              <TagIcon className="w-5 h-5 text-slate-400 mr-1" />
+          {/* ── 3. Footer Artikel (Tags & Social Share) ── */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 py-6 border-t border-surface-200/50 dark:border-gray-700/50 mt-10">
+            <div className="flex flex-wrap gap-2">
               {article.tags?.length > 0 ? (
                 article.tags.map((tag) => (
                   <Link 
                     key={tag.id}
                     to={`/artikel?tag=${tag.slug}`}
-                    className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-emerald-400 text-sm font-medium rounded-lg transition-colors"
+                    className="px-4 py-2 bg-surface-100/50 text-content-muted hover:bg-primary-50 hover:text-primary-800 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-primary-400 text-xs font-semibold rounded-lg transition-all"
                   >
                     #{tag.name}
                   </Link>
                 ))
-              ) : (
-                <span className="text-sm text-slate-500">Tidak ada tag</span>
-              )}
+              ) : null}
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                <Share2 className="w-4 h-4" /> Bagikan:
-              </span>
-              <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noreferrer" className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-colors">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
-              <a href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="w-9 h-9 flex items-center justify-center rounded-full bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white transition-colors">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-              </a>
-              <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}`} target="_blank" rel="noreferrer" className="w-9 h-9 flex items-center justify-center rounded-full bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white transition-colors">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-              </a>
+              <span className="text-sm font-semibold text-content-muted dark:text-gray-400">Bagikan:</span>
+              <div className="flex gap-2">
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2] hover:text-white transition-all shadow-sm">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white transition-all shadow-sm">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                </a>
+              </div>
             </div>
+            
           </div>
-        </article>
-
-        {/* Related Articles */}
-        {article.relatedArticles?.length > 0 && (
-          <div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Baca Juga</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {article.relatedArticles.map((related) => (
-                <Link key={related.id} to={`/artikel/${related.slug}`} className="group flex flex-col bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all">
-                  <div className="relative h-40 overflow-hidden bg-slate-200 dark:bg-slate-800">
-                    {related.thumbnail ? (
-                      <img src={getImageUrl(related.thumbnail)} alt={related.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-400"><FileText className="w-8 h-8 opacity-20" /></div>
-                    )}
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    {related.category && (
-                      <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-2 uppercase tracking-wider">{related.category.name}</span>
-                    )}
-                    <h4 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">
-                      {related.title}
-                    </h4>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 mt-auto">{formatDate(related.publishDate)}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
+        </div>
       </div>
+
+      {/* ── 4. Related Articles (Bentuk List Tombol) ── */}
+      {article.relatedArticles?.length > 0 && (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-12 md:mt-16 relative z-20">
+          <h3 className="text-xl md:text-2xl font-heading font-bold text-content dark:text-white mb-6 pl-2">
+            Baca Juga
+          </h3>
+          
+          <div className="flex flex-col gap-3 md:gap-4">
+            {article.relatedArticles.map((related) => (
+              <Link 
+                key={related.id} 
+                to={`/artikel/${related.slug}`} 
+                className="group flex items-center justify-between p-4 md:p-5 bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-2xl border border-surface-200 dark:border-gray-700 shadow-sm hover:shadow-md hover:border-primary-400 dark:hover:border-primary-600 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300"
+              >
+                {/* Bagian Kiri: Teks */}
+                <div className="flex flex-col pr-4">
+                  {related.category && (
+                    <span className="text-xs uppercase font-bold text-primary-700 dark:text-primary-400 mb-1 tracking-wider">
+                      {related.category.name}
+                    </span>
+                  )}
+                  <h4 className="text-base md:text-lg font-bold text-content dark:text-white group-hover:text-primary-800 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+                    {related.title}
+                  </h4>
+                </div>
+
+                {/* Bagian Kanan: Icon Panah */}
+                <div className="w-10 h-10 shrink-0 rounded-full bg-surface-100 dark:bg-gray-700 flex items-center justify-center text-content-muted group-hover:bg-primary-100 group-hover:text-primary-800 dark:group-hover:bg-primary-900/40 dark:group-hover:text-primary-400 transition-colors">
+                  <ChevronRight className="w-5 h-5" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -10,7 +10,7 @@ const getAll = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const settings = await settingService.update(req.body.settings, req.file || null);
+    const settings = await settingService.update(req.body.settings, req.files || {});
     sendSuccess(res, { message: 'Pengaturan berhasil diperbarui.', data: settings });
   } catch (error) { next(error); }
 };

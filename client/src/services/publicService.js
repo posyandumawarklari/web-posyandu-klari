@@ -10,4 +10,5 @@ export const publicService = {
   getCategories: () => api.get('/categories'),
   getTags: () => api.get('/tags'),
   getSettings: () => api.get('/settings'),
+  getPosyanduPosts: () => api.get('/posyandu-posts'),
 };

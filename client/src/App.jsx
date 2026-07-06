@@ -28,6 +28,7 @@ const AdminArticleForm = lazy(() => import('./pages/admin/ArticleFormPage'));
 const AdminCategories = lazy(() => import('./pages/admin/CategoriesPage'));
 const AdminTags = lazy(() => import('./pages/admin/TagsPage'));
 const AdminPrograms = lazy(() => import('./pages/admin/ProgramsPage'));
+const AdminPosyanduPosts = lazy(() => import('./pages/admin/PosyanduPostsPage'));
 const AdminGallery = lazy(() => import('./pages/admin/GalleryPage'));
 const AdminSchedules = lazy(() => import('./pages/admin/SchedulesPage'));
 const AdminUsers = lazy(() => import('./pages/admin/UsersPage'));
@@ -55,7 +56,7 @@ export default function App() {
           <Route path="artikel" element={<ArticlesPage />} />
           <Route path="artikel/:slug" element={<ArticleDetailPage />} />
           <Route path="program" element={<ProgramsPage />} />
-          <Route path="profil" element={<AboutPage />} />
+          <Route path="tentang-kami" element={<AboutPage />} />
           <Route path="galeri" element={<GalleryPage />} />
           <Route path="jadwal" element={<SchedulePage />} />
           <Route path="kontak" element={<ContactPage />} />
@@ -81,6 +82,7 @@ export default function App() {
           <Route path="kategori" element={<AdminCategories />} />
           <Route path="tag" element={<AdminTags />} />
           <Route path="program" element={<AdminPrograms />} />
+          <Route path="posyandu" element={<AdminPosyanduPosts />} />
           <Route path="galeri" element={<AdminGallery />} />
           <Route path="jadwal" element={<AdminSchedules />} />
           <Route path="profil" element={<AdminProfile />} />
@@ -103,6 +105,7 @@ export default function App() {
           <Route path="kategori" element={<AdminCategories />} />
           <Route path="tag" element={<AdminTags />} />
           <Route path="program" element={<AdminPrograms />} />
+          <Route path="posyandu" element={<AdminPosyanduPosts />} />
           <Route path="galeri" element={<AdminGallery />} />
           <Route path="jadwal" element={<AdminSchedules />} />
           <Route path="pengguna" element={<AdminUsers />} />

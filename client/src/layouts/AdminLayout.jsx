@@ -7,7 +7,7 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-900 transition-colors">
+    <div className="min-h-screen bg-surface-50 dark:bg-gray-900 transition-colors">
       {/* Sidebar */}
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 

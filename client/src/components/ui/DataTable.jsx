@@ -20,16 +20,16 @@ export default function DataTable({
 }) {
   if (isLoading) {
     return (
-      <div className="w-full bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px] flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-emerald-500 animate-spin mb-4" />
-        <p className="text-sm text-slate-500 dark:text-slate-400">Memuat data...</p>
+      <div className="w-full bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 min-h-[400px] flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 text-primary-500 animate-spin mb-4" />
+        <p className="text-sm text-content-muted dark:text-gray-400">Memuat data...</p>
       </div>
     );
   }
 
   if (!data || data.length === 0) {
     return (
-      <div className="w-full bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 min-h-[400px] flex items-center justify-center p-6">
+      <div className="w-full bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 min-h-[400px] flex items-center justify-center p-6">
         <EmptyState
           title={emptyState?.title || 'Tidak ada data'}
           description={emptyState?.description || 'Belum ada data yang dapat ditampilkan.'}
@@ -42,31 +42,31 @@ export default function DataTable({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+    <div className="bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 overflow-hidden flex flex-col">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+            <tr className="bg-surface-50 dark:bg-gray-900 border-b border-surface-200 dark:border-gray-700">
               {columns.map((col, idx) => (
                 <th
                   key={idx}
-                  className={`px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider ${col.className || ''}`}
+                  className={`px-6 py-4 text-xs font-semibold text-content-muted dark:text-gray-400 uppercase tracking-wider ${col.className || ''}`}
                 >
                   {col.header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-700/50">
+          <tbody className="divide-y divide-surface-100 dark:divide-gray-700/50">
             {data.map((row, rowIndex) => (
               <tr
                 key={row.id || rowIndex}
-                className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="hover:bg-surface-50 dark:hover:bg-gray-800/50 transition-colors"
               >
                 {columns.map((col, colIndex) => (
                   <td
                     key={colIndex}
-                    className={`px-6 py-4 text-sm text-slate-700 dark:text-slate-300 ${col.className || ''}`}
+                    className={`px-6 py-4 text-sm text-content dark:text-gray-300 ${col.className || ''}`}
                   >
                     {typeof col.accessor === 'function'
                       ? col.accessor(row)
@@ -81,7 +81,7 @@ export default function DataTable({
 
       {/* Footer / Pagination */}
       {pagination && pagination.totalPages > 1 && (
-        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50/30 dark:bg-slate-800/30">
+        <div className="px-6 py-4 border-t border-surface-200 dark:border-gray-700 bg-surface-50/50 dark:bg-gray-900/50">
           <Pagination
             currentPage={pagination.currentPage}
             totalPages={pagination.totalPages}

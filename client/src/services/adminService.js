@@ -119,13 +119,24 @@ export const scheduleService = {
 // Settings
 export const settingService = {
   getAll: () => api.get('/settings'),
-  update: (data, logoFile) => {
-    if (logoFile) {
+  update: (data, files) => {
+    if (files && (files.logo || files.hero_image)) {
       const formData = new FormData();
-      formData.append('logo', logoFile);
+      if (files.logo) formData.append('logo', files.logo);
+      if (files.hero_image) formData.append('hero_image', files.hero_image);
       formData.append('settings', JSON.stringify(data.settings));
       return api.put('/settings', formData, multipartConfig);
     }
     return api.put('/settings', data);
   },
 };
+
+// Posyandu Posts
+export const posyanduService = {
+  getAll: () => api.get('/posyandu-posts'),
+  getById: (id) => api.get(`/posyandu-posts/${id}`),
+  create: (data) => api.post('/posyandu-posts', data),
+  update: (id, data) => api.put(`/posyandu-posts/${id}`, data),
+  delete: (id) => api.delete(`/posyandu-posts/${id}`),
+};
+

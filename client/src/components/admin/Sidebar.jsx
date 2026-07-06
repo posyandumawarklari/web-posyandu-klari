@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, FolderOpen, Tag, Heart,
   Image, CalendarDays, Users, Settings, User, LogOut,
-  X, Stethoscope,
+  X, Stethoscope, MapPin,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -30,6 +30,7 @@ export default function Sidebar({ open, onClose }) {
     { to: `${basePath}/kategori`, icon: FolderOpen, label: 'Kategori' },
     { to: `${basePath}/tag`, icon: Tag, label: 'Tag' },
     { to: `${basePath}/program`, icon: Stethoscope, label: 'Program' },
+    { to: `${basePath}/posyandu`, icon: MapPin, label: 'Posyandu' },
     { to: `${basePath}/galeri`, icon: Image, label: 'Galeri' },
     { to: `${basePath}/jadwal`, icon: CalendarDays, label: 'Jadwal' },
   ];
@@ -44,14 +45,14 @@ export default function Sidebar({ open, onClose }) {
   const sidebarContent = (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-5 border-b border-slate-200 dark:border-slate-700">
-        <Link to={basePath} className="flex items-center gap-2" onClick={onClose}>
-          <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-            <Heart className="w-4 h-4 text-white" />
+      <div className="h-16 flex items-center justify-between px-5 border-b border-surface-200 dark:border-gray-700">
+        <Link to={basePath} className="flex items-center gap-3" onClick={onClose}>
+          <div className="w-8 h-8 bg-primary-50 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+            <Heart className="w-4 h-4 text-primary-800 dark:text-primary-400" />
           </div>
-          <span className="text-base font-bold text-slate-900 dark:text-white">Posyandu</span>
+          <span className="text-xl font-heading font-bold text-content dark:text-white tracking-tight">Posyandu</span>
         </Link>
-        <button onClick={onClose} className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+        <button onClick={onClose} className="lg:hidden p-1.5 rounded-lg text-content-muted hover:bg-surface-100 dark:hover:bg-gray-800">
           <X className="w-5 h-5" />
         </button>
       </div>
@@ -64,10 +65,10 @@ export default function Sidebar({ open, onClose }) {
               <Link
                 to={to}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   isActive(to, end)
-                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 shadow-sm'
-                    : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+                    ? 'bg-primary-50 text-primary-800 font-semibold dark:bg-primary-900/30 dark:text-primary-400 border border-primary-100 dark:border-primary-800/50'
+                    : 'text-content-muted hover:bg-surface-100 hover:text-content dark:text-gray-400 dark:hover:bg-gray-800 border border-transparent'
                 }`}
               >
                 <Icon className="w-[18px] h-[18px]" />
@@ -79,18 +80,18 @@ export default function Sidebar({ open, onClose }) {
       </nav>
 
       {/* User / Logout */}
-      <div className="border-t border-slate-200 dark:border-slate-700 p-3 space-y-1">
+      <div className="border-t border-surface-200 dark:border-gray-700 p-3 space-y-1">
         <Link
           to={`${basePath}/profil`}
           onClick={onClose}
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
             isActive(`${basePath}/profil`)
-              ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-              : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800'
+              ? 'bg-primary-50 text-primary-800 font-semibold dark:bg-primary-900/30 dark:text-primary-400 border border-primary-100 dark:border-primary-800/50'
+              : 'text-content-muted hover:bg-surface-100 hover:text-content dark:text-gray-400 dark:hover:bg-gray-800 border border-transparent'
           }`}
         >
           {user?.avatar ? (
-            <img src={user.avatar} alt="Profile" className="w-[18px] h-[18px] rounded-full object-cover" />
+            <img src={user.avatar} alt="Profile" className="w-8 h-8 rounded-lg object-cover" />
           ) : (
             <User className="w-[18px] h-[18px]" />
           )}
@@ -98,7 +99,7 @@ export default function Sidebar({ open, onClose }) {
         </Link>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-status-danger hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/20 transition-all border border-transparent"
         >
           <LogOut className="w-[18px] h-[18px]" />
           Keluar
@@ -111,12 +112,12 @@ export default function Sidebar({ open, onClose }) {
     <>
       {/* Mobile overlay */}
       {open && (
-        <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={onClose} />
+        <div className="fixed inset-0 z-40 bg-gray-900/50 backdrop-blur-sm lg:hidden" onClick={onClose} />
       )}
 
       {/* Mobile sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-800 transform transition-transform lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-surface dark:bg-gray-800 transform transition-transform lg:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -124,7 +125,7 @@ export default function Sidebar({ open, onClose }) {
       </div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-64 lg:flex-col bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700">
+      <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-64 lg:flex-col bg-surface dark:bg-gray-800 border-r border-surface-200 dark:border-gray-700">
         {sidebarContent}
       </div>
     </>

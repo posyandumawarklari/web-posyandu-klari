@@ -28,7 +28,20 @@ export default function ProtectedRoute({ children, requiredRole = null }) {
   }
 
   if (requiredRole && user.role !== requiredRole) {
-    return <Navigate to="/admin" replace />;
+    // Redirect users to their specific dashboard based on their role
+    // This prevents infinite redirect loops and is easily scalable for future roles
+    let fallbackRoute = '/';
+    switch (user.role) {
+      case 'ADMIN':
+        fallbackRoute = '/admin/dashboard';
+        break;
+      case 'CADRE':
+        fallbackRoute = '/dashboard';
+        break;
+      default:
+        fallbackRoute = '/';
+    }
+    return <Navigate to={fallbackRoute} replace />;
   }
 
   return children;

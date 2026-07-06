@@ -35,7 +35,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-50 disabled:pointer-events-none dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
+        className="p-2 rounded-lg text-content-muted hover:bg-surface-100 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
         aria-label="Previous page"
       >
         <ChevronLeft className="w-5 h-5" />
@@ -44,7 +44,7 @@ export default function Pagination({
       {getPageNumbers().map((page, index) => {
         if (page === '...') {
           return (
-            <div key={`ellipsis-${index}`} className="px-2 text-slate-400">
+            <div key={`ellipsis-${index}`} className="px-2 text-content-muted">
               <MoreHorizontal className="w-4 h-4" />
             </div>
           );
@@ -57,8 +57,8 @@ export default function Pagination({
             onClick={() => onPageChange(page)}
             className={`min-w-[36px] h-9 px-3 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
               isActive
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                ? 'bg-primary-800 text-white shadow-soft'
+                : 'text-content-muted hover:bg-surface-100 dark:text-gray-300 dark:hover:bg-gray-800'
             }`}
             aria-current={isActive ? 'page' : undefined}
           >
@@ -70,7 +70,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 disabled:opacity-50 disabled:pointer-events-none dark:text-slate-400 dark:hover:bg-slate-800 transition-colors"
+        className="p-2 rounded-lg text-content-muted hover:bg-surface-100 disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
         aria-label="Next page"
       >
         <ChevronRight className="w-5 h-5" />

@@ -195,3 +195,24 @@ model WebsiteSetting {
 
   @@map("website_settings")
 }
+
+// ========================
+// Posyandu Post
+// ========================
+
+model PosyanduPost {
+  id        String   @id @default(cuid())
+  name      String
+  area      String
+  location  String
+  mapX      String   @map("map_x")
+  mapY      String   @map("map_y")
+  headName  String   @map("head_name")
+  headPhone String   @map("head_phone")
+  cadres    Json     // Array of strings
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("posyandu_posts")
+}
+

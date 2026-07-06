@@ -4,7 +4,7 @@ const Card = forwardRef(({ className = '', children, ...props }, ref) => {
   return (
     <div
       ref={ref}
-      className={`bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 ${className}`}
+      className={`bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 ${className}`}
       {...props}
     >
       {children}
@@ -17,7 +17,7 @@ const CardHeader = forwardRef(({ className = '', children, ...props }, ref) => {
   return (
     <div
       ref={ref}
-      className={`flex flex-col space-y-1.5 p-6 border-b border-slate-100 dark:border-slate-700/50 ${className}`}
+      className={`flex flex-col space-y-1.5 p-6 border-b border-surface-100 dark:border-gray-700/50 ${className}`}
       {...props}
     >
       {children}
@@ -30,7 +30,7 @@ const CardTitle = forwardRef(({ className = '', children, ...props }, ref) => {
   return (
     <h3
       ref={ref}
-      className={`text-lg font-semibold leading-none tracking-tight text-slate-900 dark:text-white ${className}`}
+      className={`text-xl font-heading font-semibold leading-none tracking-tight text-content dark:text-white ${className}`}
       {...props}
     >
       {children}
@@ -43,7 +43,7 @@ const CardDescription = forwardRef(({ className = '', children, ...props }, ref)
   return (
     <p
       ref={ref}
-      className={`text-sm text-slate-500 dark:text-slate-400 ${className}`}
+      className={`text-sm text-content-muted dark:text-gray-400 font-sans ${className}`}
       {...props}
     >
       {children}

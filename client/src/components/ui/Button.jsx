@@ -2,18 +2,18 @@ import { forwardRef } from 'react';
 import { Loader2 } from 'lucide-react';
 
 const variants = {
-  primary: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm',
-  secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300',
-  outline: 'border border-slate-300 bg-transparent hover:bg-slate-50 text-slate-700 dark:border-slate-600 dark:hover:bg-slate-800 dark:text-slate-300',
-  ghost: 'bg-transparent hover:bg-slate-100 text-slate-700 dark:hover:bg-slate-800 dark:text-slate-300',
-  danger: 'bg-red-500 hover:bg-red-600 text-white shadow-sm',
+  primary: 'bg-primary-800 hover:bg-primary-900 text-white shadow-soft hover:shadow-soft-lg',
+  secondary: 'bg-white hover:bg-surface-50 text-content border border-surface-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white dark:border-gray-700',
+  outline: 'border border-primary-800 bg-transparent hover:bg-primary-50 text-primary-800 dark:border-primary-400 dark:hover:bg-primary-900/30 dark:text-primary-400',
+  ghost: 'bg-transparent hover:bg-surface-100 text-content-muted hover:text-content dark:hover:bg-gray-800 dark:text-gray-400 dark:hover:text-white',
+  danger: 'bg-status-danger hover:bg-red-700 text-white shadow-soft hover:shadow-soft-lg',
 };
 
 const sizes = {
-  sm: 'h-8 px-3 text-xs',
-  md: 'h-10 px-4 py-2 text-sm',
-  lg: 'h-12 px-6 text-base',
-  icon: 'h-10 w-10 p-2',
+  sm: 'h-8 px-4 text-xs rounded-md',
+  md: 'h-11 px-6 text-sm rounded-lg',
+  lg: 'h-14 px-8 text-base rounded-xl',
+  icon: 'h-10 w-10 p-2 rounded-lg',
 };
 
 const Button = forwardRef(

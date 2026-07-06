@@ -97,34 +97,34 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700 max-w-7xl mx-auto">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Galeri Foto</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Dokumentasikan kegiatan posyandu dalam bentuk foto.</p>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Galeri Foto</h1>
+          <p className="text-base font-medium text-content-muted dark:text-gray-400 mt-2">Dokumentasikan kegiatan posyandu dalam bentuk foto.</p>
         </div>
-        <Button onClick={handleOpenModal} leftIcon={<Plus className="w-4 h-4" />}>
+        <Button onClick={handleOpenModal} leftIcon={<Plus className="w-5 h-5" />} className="px-6 py-2.5 rounded-xl shadow-sm hover:shadow-soft-xl transition-all font-bold">
           Unggah Foto
         </Button>
       </div>
 
       {/* Grid Content */}
-      <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft-xl border border-surface-200 dark:border-gray-700 p-8">
         
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} className="aspect-square rounded-2xl" />)}
           </div>
         ) : !data?.data || data.data.length === 0 ? (
-          <div className="py-12">
+          <div className="py-16">
             <EmptyState 
               icon={ImageIcon} 
               title="Galeri Kosong" 
               description="Belum ada foto yang diunggah ke galeri." 
               action={
-                <Button onClick={handleOpenModal} leftIcon={<Plus className="w-4 h-4" />} variant="outline">
+                <Button onClick={handleOpenModal} leftIcon={<Plus className="w-4 h-4" />} variant="outline" className="rounded-xl border-surface-300 dark:border-gray-600">
                   Unggah Foto Pertama
                 </Button>
               }
@@ -132,28 +132,28 @@ export default function GalleryPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
               {data.data.map((img) => (
-                <div key={img.id} className="group relative aspect-square rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div key={img.id} className="group relative aspect-square rounded-2xl overflow-hidden bg-surface-50 dark:bg-gray-900 border border-surface-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-500">
                   <img 
                     src={getImageUrl(img.imageUrl)} 
                     alt={img.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3">
-                    <div className="flex justify-end">
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+                    <div className="flex justify-end translate-y-[-10px] group-hover:translate-y-0 transition-transform duration-300">
                       <button 
                         onClick={() => handleDelete(img.id)}
                         disabled={isDeleting}
-                        className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-lg transition-colors disabled:opacity-50"
+                        className="p-2.5 bg-red-500/90 hover:bg-red-600 text-white rounded-xl shadow-lg transition-colors disabled:opacity-50 backdrop-blur-sm"
                         title="Hapus foto"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                    <div>
-                      <p className="text-white font-medium text-sm line-clamp-2 leading-tight">{img.title}</p>
-                      <p className="text-slate-300 text-[10px] mt-1">{formatDate(img.createdAt)}</p>
+                    <div className="translate-y-[10px] group-hover:translate-y-0 transition-transform duration-300">
+                      <p className="text-white font-bold text-sm line-clamp-2 leading-tight drop-shadow-md">{img.title}</p>
+                      <p className="text-gray-300 font-medium text-xs mt-1.5 drop-shadow-md">{formatDate(img.createdAt)}</p>
                     </div>
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export default function GalleryPage() {
 
             {/* Pagination */}
             {data.meta.totalPages > 1 && (
-              <div className="mt-8 flex justify-center border-t border-slate-100 dark:border-slate-800 pt-6">
+              <div className="mt-10 flex justify-center border-t border-surface-100 dark:border-gray-700 pt-8">
                 <Pagination 
                   currentPage={data.meta.page}
                   totalPages={data.meta.totalPages}
@@ -181,35 +181,37 @@ export default function GalleryPage() {
         title="Unggah Foto Galeri"
         maxWidth="max-w-md"
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-2">
           
           {/* Image Upload Area */}
           <div>
-            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 dark:border-slate-700 border-dashed rounded-xl relative overflow-hidden group">
+            <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-surface-200 dark:border-gray-700 border-dashed rounded-xl relative overflow-hidden group hover:border-primary-400 dark:hover:border-primary-600 transition-colors bg-surface-50 dark:bg-gray-900/50">
               {imagePreview ? (
-                <div className="relative w-full aspect-square max-h-64">
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover rounded-lg" />
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                    <label className="cursor-pointer bg-white text-slate-900 px-4 py-2 rounded-lg font-medium text-sm shadow-xl">
+                <div className="relative w-full aspect-square max-h-64 rounded-lg overflow-hidden shadow-sm">
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <label className="cursor-pointer bg-white text-content px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl hover:bg-surface-50 transition-colors">
                       Ganti Gambar
                       <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                     </label>
                   </div>
                 </div>
               ) : (
-                <div className="space-y-1 text-center py-8">
-                  <ImageIcon className="mx-auto h-12 w-12 text-slate-400" />
-                  <div className="flex text-sm text-slate-600 dark:text-slate-400 justify-center mt-4">
-                    <label className="relative cursor-pointer bg-transparent rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus-within:outline-none">
-                      <span>Pilih file gambar</span>
+                <div className="space-y-3 text-center py-8">
+                  <div className="w-16 h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto shadow-sm border border-surface-100 dark:border-gray-700">
+                    <ImageIcon className="h-8 w-8 text-primary-800/40 dark:text-primary-400/40" />
+                  </div>
+                  <div className="flex text-sm font-bold text-content dark:text-gray-300 justify-center">
+                    <label className="relative cursor-pointer bg-transparent rounded-md text-primary-800 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 transition-colors focus-within:outline-none">
+                      <span>Pilih File Gambar</span>
                       <input type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
                     </label>
                   </div>
-                  <p className="text-xs text-slate-500 mt-2">PNG, JPG, WEBP hingga 5MB</p>
+                  <p className="text-xs font-medium text-content-muted dark:text-gray-500">PNG, JPG, WEBP hingga 5MB</p>
                 </div>
               )}
             </div>
-            {!imageFile && <p className="mt-2 text-xs text-red-500">Gambar wajib diunggah.</p>}
+            {!imageFile && <p className="mt-2 text-xs font-semibold text-red-500">Gambar wajib diunggah.</p>}
           </div>
 
           <Input 
@@ -219,10 +221,10 @@ export default function GalleryPage() {
             error={errors.title?.message}
           />
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <Button type="button" variant="ghost" onClick={handleCloseModal}>Batal</Button>
-            <Button type="submit" isLoading={isCreating || isUploading}>
-              Unggah
+          <div className="flex justify-end gap-3 pt-6 border-t border-surface-100 dark:border-gray-700">
+            <Button type="button" variant="ghost" onClick={handleCloseModal} className="rounded-xl">Batal</Button>
+            <Button type="submit" isLoading={isCreating || isUploading} className="rounded-xl px-6">
+              Unggah Foto
             </Button>
           </div>
         </form>

@@ -79,14 +79,14 @@ export default function TagsPage() {
     { 
       header: 'Nama Tag', 
       accessor: (row) => (
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-sm font-medium text-slate-700 dark:text-slate-300">
-          <Tag className="w-3 h-3 text-emerald-500" />
+        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-50 dark:bg-gray-800 text-sm font-bold text-content dark:text-gray-300 border border-surface-200 dark:border-gray-700">
+          <Tag className="w-3.5 h-3.5 text-primary-600 dark:text-primary-400" />
           {row.name}
         </span>
       ) 
     },
-    { header: 'Slug', accessor: 'slug', className: 'text-slate-500' },
-    { header: 'Dibuat Pada', accessor: (row) => formatDate(row.createdAt) },
+    { header: 'Slug', accessor: 'slug', className: 'text-content-muted font-medium' },
+    { header: 'Dibuat Pada', accessor: (row) => <span className="font-medium">{formatDate(row.createdAt)}</span> },
     {
       header: 'Aksi',
       className: 'w-24 text-right',
@@ -94,7 +94,7 @@ export default function TagsPage() {
         <div className="flex items-center justify-end gap-2">
           <button 
             onClick={() => handleOpenModal(row)}
-            className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors"
+            className="p-2 text-content-muted hover:text-primary-800 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 rounded-xl transition-all"
             title="Edit"
           >
             <Edit2 className="w-4 h-4" />
@@ -102,7 +102,7 @@ export default function TagsPage() {
           <button 
             onClick={() => handleDelete(row.id)}
             disabled={isDeleting}
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-content-muted hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 rounded-xl transition-all disabled:opacity-50"
             title="Hapus"
           >
             <Trash2 className="w-4 h-4" />
@@ -113,40 +113,42 @@ export default function TagsPage() {
   ];
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700 max-w-7xl mx-auto">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Tag Artikel</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Kelola tag untuk mengkategorikan spesifik topik artikel.</p>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Tag Artikel</h1>
+          <p className="text-base font-medium text-content-muted dark:text-gray-400 mt-2">Kelola tag untuk mengkategorikan spesifik topik artikel.</p>
         </div>
-        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
+        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-5 h-5" />} className="px-6 py-2.5 rounded-xl shadow-sm hover:shadow-soft-xl transition-all font-bold">
           Tambah Tag
         </Button>
       </div>
 
       {/* Data Table */}
-      <DataTable
-        columns={columns}
-        data={data?.data}
-        isLoading={isLoading}
-        pagination={{
-          currentPage: data?.meta?.page || 1,
-          totalPages: data?.meta?.totalPages || 1,
-          onPageChange: setPage,
-        }}
-        emptyState={{
-          icon: Tag,
-          title: 'Tidak ada tag',
-          description: 'Belum ada tag yang dibuat.',
-          action: (
-            <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />} variant="outline">
-              Buat Tag Pertama
-            </Button>
-          )
-        }}
-      />
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft-xl border border-surface-200 dark:border-gray-700 overflow-hidden">
+        <DataTable
+          columns={columns}
+          data={data?.data}
+          isLoading={isLoading}
+          pagination={{
+            currentPage: data?.meta?.page || 1,
+            totalPages: data?.meta?.totalPages || 1,
+            onPageChange: setPage,
+          }}
+          emptyState={{
+            icon: Tag,
+            title: 'Tidak ada tag',
+            description: 'Belum ada tag yang dibuat.',
+            action: (
+              <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />} variant="outline" className="rounded-xl border-surface-300 dark:border-gray-600">
+                Buat Tag Pertama
+              </Button>
+            )
+          }}
+        />
+      </div>
 
       {/* Form Modal */}
       <Modal 
@@ -154,16 +156,16 @@ export default function TagsPage() {
         onClose={handleCloseModal}
         title={editingId ? 'Edit Tag' : 'Tambah Tag Baru'}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-2">
           <Input 
             label="Nama Tag" 
             placeholder="Misal: imunisasi" 
             {...register('name')}
             error={errors.name?.message}
           />
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <Button type="button" variant="ghost" onClick={handleCloseModal}>Batal</Button>
-            <Button type="submit" isLoading={isCreating || isUpdating}>
+          <div className="flex justify-end gap-3 pt-6 border-t border-surface-100 dark:border-gray-700">
+            <Button type="button" variant="ghost" onClick={handleCloseModal} className="rounded-xl">Batal</Button>
+            <Button type="submit" isLoading={isCreating || isUpdating} className="rounded-xl px-6">
               {editingId ? 'Simpan Perubahan' : 'Tambahkan'}
             </Button>
           </div>

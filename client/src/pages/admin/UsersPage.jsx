@@ -107,25 +107,23 @@ export default function UsersPage() {
     { 
       header: 'Pengguna', 
       accessor: (row) => (
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden shrink-0">
+        <div className="flex items-center gap-4 py-1">
+          <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 overflow-hidden shrink-0 border border-primary-200 dark:border-primary-800/30 shadow-sm flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold text-lg">
             {row.avatar ? (
               <img src={row.avatar} alt={row.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                {row.name.charAt(0).toUpperCase()}
-              </div>
+              row.name.charAt(0).toUpperCase()
             )}
           </div>
           <div>
-            <div className="font-medium text-slate-900 dark:text-white">{row.name}</div>
-            <div className="text-xs text-slate-500">{row.email}</div>
+            <div className="font-bold text-content dark:text-white text-base">{row.name}</div>
+            <div className="text-sm font-medium text-content-muted dark:text-gray-400 mt-0.5">{row.email}</div>
           </div>
         </div>
       ) 
     },
     { header: 'Peran', accessor: (row) => getRoleBadge(row.role) },
-    { header: 'Terdaftar', accessor: (row) => formatDate(row.createdAt) },
+    { header: 'Terdaftar', accessor: (row) => <span className="font-medium">{formatDate(row.createdAt)}</span> },
     {
       header: 'Aksi',
       className: 'w-24 text-right',
@@ -133,7 +131,7 @@ export default function UsersPage() {
         <div className="flex items-center justify-end gap-2">
           <button 
             onClick={() => handleOpenModal(row)}
-            className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors"
+            className="p-2 text-content-muted hover:text-primary-800 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 rounded-xl transition-all"
             title="Edit"
           >
             <Edit2 className="w-4 h-4" />
@@ -141,7 +139,7 @@ export default function UsersPage() {
           <button 
             onClick={() => handleDelete(row.id)}
             disabled={isDeleting}
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-content-muted hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 rounded-xl transition-all disabled:opacity-50"
             title="Hapus"
           >
             <Trash2 className="w-4 h-4" />
@@ -152,48 +150,52 @@ export default function UsersPage() {
   ];
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700 max-w-7xl mx-auto">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Kelola Pengguna</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Manajemen akun admin dan kader posyandu.</p>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Kelola Pengguna</h1>
+          <p className="text-base font-medium text-content-muted dark:text-gray-400 mt-2">Manajemen akun admin, kader, dan pengguna posyandu.</p>
         </div>
-        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
+        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-5 h-5" />} className="px-6 py-2.5 rounded-xl shadow-sm hover:shadow-soft-xl transition-all font-bold">
           Tambah Pengguna
         </Button>
       </div>
 
       {/* Data Table */}
-      <DataTable
-        columns={columns}
-        data={data?.data}
-        isLoading={isLoading}
-        pagination={{
-          currentPage: data?.meta?.page || 1,
-          totalPages: data?.meta?.totalPages || 1,
-          onPageChange: setPage,
-        }}
-        emptyState={{
-          icon: Users,
-          title: 'Tidak ada pengguna',
-          description: 'Sistem belum memiliki data pengguna selain Anda.',
-        }}
-      />
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft-xl border border-surface-200 dark:border-gray-700 overflow-hidden">
+        <DataTable
+          columns={columns}
+          data={data?.data}
+          isLoading={isLoading}
+          pagination={{
+            currentPage: data?.meta?.page || 1,
+            totalPages: data?.meta?.totalPages || 1,
+            onPageChange: setPage,
+          }}
+          emptyState={{
+            icon: Users,
+            title: 'Tidak ada pengguna',
+            description: 'Sistem belum memiliki data pengguna selain Anda.',
+          }}
+        />
+      </div>
 
       {/* Form Modal */}
       <Modal 
         isOpen={isModalOpen} 
         onClose={handleCloseModal}
         title={editingId ? 'Edit Pengguna' : 'Tambah Pengguna Baru'}
+        maxWidth="max-w-xl"
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-2">
           <Input 
             label="Nama Lengkap" 
             placeholder="Masukkan nama lengkap" 
             {...register('name')}
             error={errors.name?.message}
+            className="font-bold"
           />
           <Input 
             label="Alamat Email" 
@@ -216,10 +218,10 @@ export default function UsersPage() {
             helperText={editingId ? 'Biarkan kosong untuk mempertahankan password lama.' : ''}
           />
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <Button type="button" variant="ghost" onClick={handleCloseModal}>Batal</Button>
-            <Button type="submit" isLoading={isCreating || isUpdating}>
-              {editingId ? 'Simpan Perubahan' : 'Tambahkan'}
+          <div className="flex justify-end gap-3 pt-6 border-t border-surface-100 dark:border-gray-700">
+            <Button type="button" variant="ghost" onClick={handleCloseModal} className="rounded-xl">Batal</Button>
+            <Button type="submit" isLoading={isCreating || isUpdating} className="rounded-xl px-6">
+              {editingId ? 'Simpan Perubahan' : 'Tambahkan Pengguna'}
             </Button>
           </div>
         </form>

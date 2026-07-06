@@ -9,6 +9,7 @@ import {
   galleryService,
   scheduleService,
   settingService,
+  posyanduService,
 } from '../services/adminService';
 import toast from 'react-hot-toast';
 
@@ -163,10 +164,18 @@ export function useAdminSettings() {
   });
 }
 
+// ─── Posyandu Posts ────────────────────────────────
+const posyanduHooks = createCrudHooks('posyandu-posts', posyanduService, { singular: 'Posyandu' });
+export const usePosyanduPosts = posyanduHooks.useGetAll;
+export const usePosyanduPost = posyanduHooks.useGetById;
+export const useCreatePosyanduPost = posyanduHooks.useCreate;
+export const useUpdatePosyanduPost = posyanduHooks.useUpdate;
+export const useDeletePosyanduPost = posyanduHooks.useDelete;
+
 export function useUpdateSettings() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ data, logoFile }) => settingService.update(data, logoFile),
+    mutationFn: ({ data, files }) => settingService.update(data, files),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'settings'] });
       queryClient.invalidateQueries({ queryKey: ['settings'] });
@@ -238,4 +247,12 @@ export function useAdminSettingsComposite() {
   const { data, isLoading } = useAdminSettings();
   const { mutate: updateSettings, isPending: isUpdating } = useUpdateSettings();
   return { data, isLoading, updateSettings, isUpdating };
+}
+
+export function useAdminPosyanduPosts(params) {
+  const { data, isLoading } = usePosyanduPosts(params);
+  const { mutate: createPosyandu, isPending: isCreating } = useCreatePosyanduPost();
+  const { mutate: updatePosyandu, isPending: isUpdating } = useUpdatePosyanduPost();
+  const { mutate: deletePosyandu, isPending: isDeleting } = useDeletePosyanduPost();
+  return { data, isLoading, createPosyandu, updatePosyandu, deletePosyandu, isCreating, isUpdating, isDeleting };
 }

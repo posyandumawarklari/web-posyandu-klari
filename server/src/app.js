@@ -62,6 +62,7 @@ const settingRoutes = require('./routes/setting.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const publicRoutes = require('./routes/public.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const posyanduRoutes = require('./routes/posyandu.routes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -75,6 +76,7 @@ app.use('/api/settings', settingRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/public', publicRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/posyandu-posts', posyanduRoutes);
 
 // ---------------------
 // Error Handling

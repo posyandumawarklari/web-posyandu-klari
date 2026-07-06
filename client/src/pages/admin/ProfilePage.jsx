@@ -99,47 +99,53 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="max-w-4xl space-y-8 animate-in fade-in duration-700">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Pengaturan Profil</h1>
-        <p className="text-slate-500 dark:text-slate-400 mt-1">
+        <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Pengaturan Profil</h1>
+        <p className="text-base font-medium text-content-muted dark:text-gray-400 mt-2">
           Kelola informasi profil dan pengaturan keamanan akun Anda.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-8">
         {/* Profile Information Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5 text-emerald-600" />
+        <Card className="border-none shadow-soft-xl rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
+          <CardHeader className="border-b border-surface-100 dark:border-gray-700 bg-surface-50/50 dark:bg-gray-800/50 py-6">
+            <CardTitle className="text-xl font-heading font-bold text-content dark:text-white flex items-center gap-3">
+              <div className="p-2 bg-primary-50 dark:bg-gray-700 rounded-lg shrink-0">
+                <User className="w-5 h-5 text-primary-800 dark:text-primary-400" />
+              </div>
               Informasi Profil
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm font-medium text-content-muted dark:text-gray-400 mt-1 pl-12">
               Perbarui informasi pribadi dan foto profil Anda.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-8">
               
               {/* Avatar Upload */}
-              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
-                <div className="w-24 h-24 rounded-2xl bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
+              <div className="flex flex-col sm:flex-row gap-8 items-center sm:items-start">
+                <div className="w-32 h-32 rounded-3xl bg-surface-100 dark:bg-gray-700 overflow-hidden flex-shrink-0 border-4 border-white dark:border-gray-800 shadow-soft-xl relative group">
                   {avatarPreview ? (
-                    <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400">
-                      <User className="w-8 h-8" />
+                    <div className="w-full h-full flex items-center justify-center text-content-muted/50 dark:text-gray-500">
+                      <User className="w-12 h-12" />
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center pointer-events-none">
+                     <Upload className="w-6 h-6 text-white mb-1" />
+                     <span className="text-white text-xs font-bold">Ubah</span>
+                  </div>
                 </div>
-                <div className="flex-1 space-y-2 text-center sm:text-left">
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <div className="flex-1 space-y-3 text-center sm:text-left pt-2">
+                  <label className="block text-sm font-bold text-content dark:text-gray-300">
                     Foto Profil
                   </label>
                   <div className="flex items-center justify-center sm:justify-start">
-                    <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700 transition-colors">
-                      <Upload className="w-4 h-4" />
+                    <label className="cursor-pointer inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-surface-200 rounded-xl text-sm font-bold text-content hover:bg-surface-50 hover:border-primary-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:border-primary-400 transition-all shadow-sm hover:shadow">
+                      <Upload className="w-4 h-4 text-primary-800 dark:text-primary-400" />
                       <span>Pilih Foto</span>
                       <input
                         type="file"
@@ -149,7 +155,7 @@ export default function ProfilePage() {
                       />
                     </label>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                  <p className="text-xs font-medium text-content-muted dark:text-gray-400">
                     Disarankan: JPG, PNG, atau GIF. Maks 2MB.
                   </p>
                 </div>
@@ -184,21 +190,21 @@ export default function ProfilePage() {
                   error={errorsProfile.phone?.message}
                   {...registerProfile('phone')}
                 />
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <div className="space-y-2">
+                  <label className="block text-sm font-bold text-content dark:text-gray-300">
                     Role Akun
                   </label>
-                  <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-medium">
+                  <div className="px-5 py-3 bg-surface-50 dark:bg-gray-700/50 rounded-xl border border-surface-200 dark:border-gray-700 text-content-muted dark:text-gray-400 font-semibold flex items-center h-[46px]">
                     {user?.role === 'ADMIN' ? 'Administrator' : 'Kader Posyandu'}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-                <div className="text-xs text-slate-500 dark:text-slate-400">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-100 dark:border-gray-700">
+                <div className="text-sm font-medium text-content-muted dark:text-gray-400">
                   Anggota sejak {formatDate(user?.createdAt)}
                 </div>
-                <Button type="submit" isLoading={isUpdatingProfile} icon={Save}>
+                <Button type="submit" isLoading={isUpdatingProfile} icon={Save} className="w-full sm:w-auto px-8 py-2.5 rounded-xl">
                   Simpan Profil
                 </Button>
               </div>
@@ -207,19 +213,21 @@ export default function ProfilePage() {
         </Card>
 
         {/* Change Password Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <KeyRound className="w-5 h-5 text-emerald-600" />
+        <Card className="border-none shadow-soft-xl rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
+          <CardHeader className="border-b border-surface-100 dark:border-gray-700 bg-surface-50/50 dark:bg-gray-800/50 py-6">
+            <CardTitle className="text-xl font-heading font-bold text-content dark:text-white flex items-center gap-3">
+              <div className="p-2 bg-primary-50 dark:bg-gray-700 rounded-lg shrink-0">
+                <KeyRound className="w-5 h-5 text-primary-800 dark:text-primary-400" />
+              </div>
               Ubah Password
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-sm font-medium text-content-muted dark:text-gray-400 mt-1 pl-12">
               Perbarui password secara berkala untuk menjaga keamanan akun Anda.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-6">
-              <div className="space-y-4 max-w-lg">
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-8">
+              <div className="space-y-6 max-w-lg">
                 <Input
                   label="Password Lama"
                   type="password"
@@ -252,8 +260,8 @@ export default function ProfilePage() {
                 />
               </div>
 
-              <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
-                <Button type="submit" isLoading={isChangingPassword} icon={Save}>
+              <div className="flex justify-end pt-6 border-t border-surface-100 dark:border-gray-700">
+                <Button type="submit" isLoading={isChangingPassword} icon={Save} className="w-full sm:w-auto px-8 py-2.5 rounded-xl">
                   Ubah Password
                 </Button>
               </div>

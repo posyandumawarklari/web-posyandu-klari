@@ -57,4 +57,38 @@ const handleUpload = (fieldName) => {
   };
 };
 
-module.exports = { upload, handleUpload };
+/**
+ * Middleware to handle multiple file fields
+ * @param {Array} fields - Array of objects e.g. [{ name: 'logo', maxCount: 1 }]
+ */
+const handleUploadFields = (fields) => {
+  return (req, res, next) => {
+    const uploadMultiple = upload.fields(fields);
+
+    uploadMultiple(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return sendError(res, {
+            statusCode: 400,
+            message: 'Ukuran file terlalu besar. Maksimum 2MB.',
+          });
+        }
+        return sendError(res, {
+          statusCode: 400,
+          message: err.message,
+        });
+      }
+
+      if (err) {
+        return sendError(res, {
+          statusCode: 400,
+          message: err.message,
+        });
+      }
+
+      next();
+    });
+  };
+};
+
+module.exports = { upload, handleUpload, handleUploadFields };

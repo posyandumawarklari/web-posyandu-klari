@@ -9,14 +9,16 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Overview</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 rounded-2xl" />)}
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white">Dashboard Overview</h1>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Skeleton className="h-96 rounded-2xl" />
-          <Skeleton className="h-96 rounded-2xl" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-40 rounded-2xl" />)}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <Skeleton className="h-[400px] rounded-2xl" />
+          <Skeleton className="h-[400px] rounded-2xl" />
         </div>
       </div>
     );
@@ -24,14 +26,14 @@ export default function Dashboard() {
 
   const { stats, recentArticles, recentSchedules } = data || {};
 
-  const statCards = [
+    const statCards = [
     {
       title: 'Total Artikel',
       value: stats?.totalArticles || 0,
       icon: FileText,
       trend: '+12%', // Static for visual purposes, backend can be enhanced later
       trendUp: true,
-      color: 'bg-blue-500',
+      color: 'bg-primary-800',
     },
     {
       title: 'Kategori Aktif',
@@ -39,7 +41,7 @@ export default function Dashboard() {
       icon: TrendingUp,
       trend: '+3',
       trendUp: true,
-      color: 'bg-emerald-500',
+      color: 'bg-emerald-600',
     },
     {
       title: 'Kegiatan Bulan Ini',
@@ -47,7 +49,7 @@ export default function Dashboard() {
       icon: Calendar,
       trend: '-1',
       trendUp: false,
-      color: 'bg-orange-500',
+      color: 'bg-amber-500',
     },
     {
       title: 'Foto Galeri',
@@ -55,66 +57,69 @@ export default function Dashboard() {
       icon: ImageIcon,
       trend: '+8',
       trendUp: true,
-      color: 'bg-purple-500',
+      color: 'bg-indigo-600',
     }
   ];
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700">
       
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Overview</h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Ringkasan aktivitas dan data sistem posyandu Anda.</p>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Dashboard Overview</h1>
+          <p className="text-base text-content-muted dark:text-gray-400 mt-2 font-medium">Ringkasan aktivitas dan data sistem posyandu Anda.</p>
+        </div>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {statCards.map((stat, index) => (
-          <Card key={index} className="border-none shadow-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white ${stat.color} shadow-lg shadow-${stat.color.split('-')[1]}-500/30`}>
+          <Card key={index} className="border-none shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300 rounded-2xl bg-white dark:bg-gray-800 overflow-hidden relative group">
+            <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-10 transition-transform duration-500 group-hover:scale-110 ${stat.color}`}></div>
+            <CardContent className="p-6 relative z-10">
+              <div className="flex items-center justify-between mb-6">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-sm ${stat.color}`}>
                   <stat.icon className="w-6 h-6" />
                 </div>
-                <div className={`flex items-center gap-1 text-sm font-medium ${stat.trendUp ? 'text-emerald-500' : 'text-red-500'}`}>
+                <div className={`flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-full ${stat.trendUp ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
                   {stat.trendUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                   {stat.trend}
                 </div>
               </div>
-              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{stat.title}</p>
-              <h3 className="text-3xl font-bold text-slate-900 dark:text-white mt-1">{stat.value}</h3>
+              <p className="text-sm font-semibold text-content-muted dark:text-gray-400 mb-1 uppercase tracking-wide">{stat.title}</p>
+              <h3 className="text-4xl font-heading font-bold text-content dark:text-white">{stat.value}</h3>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Recent Articles */}
-        <Card className="shadow-sm border-slate-200 dark:border-slate-700/50">
-          <CardHeader className="border-b border-slate-100 dark:border-slate-800">
-            <CardTitle className="text-lg">Artikel Terakhir Dibuat</CardTitle>
+        <Card className="border-none shadow-soft-xl rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
+          <CardHeader className="border-b border-surface-100 dark:border-gray-700 bg-surface-50/50 dark:bg-gray-800/50 py-5">
+            <CardTitle className="text-xl font-heading font-bold text-content dark:text-white">Artikel Terakhir Dibuat</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {recentArticles?.length > 0 ? (
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              <div className="divide-y divide-surface-100 dark:divide-gray-700">
                 {recentArticles.map(article => (
-                  <div key={article.id} className="p-4 sm:p-6 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                  <div key={article.id} className="p-5 flex items-center justify-between hover:bg-surface-50 dark:hover:bg-gray-700/50 transition-colors group">
+                    <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-gray-700 text-primary-800 dark:text-primary-400 flex items-center justify-center shrink-0 shadow-sm border border-primary-100 dark:border-gray-600 group-hover:bg-primary-800 group-hover:text-white transition-colors">
                         <FileText className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-slate-900 dark:text-white text-sm line-clamp-1">{article.title}</h4>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{formatDate(article.createdAt)} • By {article.author?.name || 'Admin'}</p>
+                        <h4 className="font-bold text-content dark:text-white text-base line-clamp-1 group-hover:text-primary-800 dark:group-hover:text-primary-400 transition-colors">{article.title}</h4>
+                        <p className="text-sm font-medium text-content-muted dark:text-gray-400 mt-1">{formatDate(article.createdAt)} • By <span className="text-content dark:text-gray-300">{article.author?.name || 'Admin'}</span></p>
                       </div>
                     </div>
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                    <span className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
                       article.status === 'PUBLISHED' 
-                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
-                        : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50'
+                        : 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800/50'
                     }`}>
                       {article.status}
                     </span>
@@ -122,37 +127,40 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="p-8 text-center text-slate-500 dark:text-slate-400 text-sm">
-                Belum ada artikel yang ditulis.
+              <div className="p-10 text-center">
+                <div className="w-16 h-16 bg-surface-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FileText className="w-8 h-8 text-content-muted dark:text-gray-500" />
+                </div>
+                <p className="text-base font-medium text-content-muted dark:text-gray-400">Belum ada artikel yang ditulis.</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Upcoming Schedules */}
-        <Card className="shadow-sm border-slate-200 dark:border-slate-700/50">
-          <CardHeader className="border-b border-slate-100 dark:border-slate-800">
-            <CardTitle className="text-lg">Jadwal Mendatang</CardTitle>
+        <Card className="border-none shadow-soft-xl rounded-2xl bg-white dark:bg-gray-800 overflow-hidden">
+          <CardHeader className="border-b border-surface-100 dark:border-gray-700 bg-surface-50/50 dark:bg-gray-800/50 py-5">
+            <CardTitle className="text-xl font-heading font-bold text-content dark:text-white">Jadwal Mendatang</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {recentSchedules?.length > 0 ? (
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              <div className="divide-y divide-surface-100 dark:divide-gray-700">
                 {recentSchedules.map(schedule => (
-                  <div key={schedule.id} className="p-4 sm:p-6 flex items-start gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <div className="w-12 h-14 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden shrink-0">
-                      <div className="bg-red-500 text-white text-[10px] font-bold text-center py-0.5 uppercase tracking-wider">
+                  <div key={schedule.id} className="p-5 flex items-start gap-5 hover:bg-surface-50 dark:hover:bg-gray-700/50 transition-colors group">
+                    <div className="w-14 h-16 rounded-xl border border-surface-200 dark:border-gray-700 flex flex-col overflow-hidden shrink-0 shadow-sm group-hover:border-primary-300 transition-colors">
+                      <div className="bg-primary-800 text-white text-[10px] font-bold text-center py-1 uppercase tracking-widest">
                         {new Date(schedule.date).toLocaleDateString('id-ID', { month: 'short' })}
                       </div>
-                      <div className="bg-white dark:bg-slate-900 flex-1 flex items-center justify-center text-lg font-bold text-slate-900 dark:text-white">
+                      <div className="bg-white dark:bg-gray-800 flex-1 flex items-center justify-center text-xl font-heading font-bold text-content dark:text-white">
                         {new Date(schedule.date).getDate()}
                       </div>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-slate-900 dark:text-white text-sm mb-1">{schedule.activityName}</h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 line-clamp-1">{schedule.location}</p>
-                      <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
-                        <span className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500"></span> {schedule.time}
+                    <div className="flex-1 pt-1">
+                      <h4 className="font-bold text-content dark:text-white text-base mb-1.5 group-hover:text-primary-800 dark:group-hover:text-primary-400 transition-colors">{schedule.activityName}</h4>
+                      <p className="text-sm font-medium text-content-muted dark:text-gray-400 mb-3 line-clamp-1">{schedule.location}</p>
+                      <div className="flex items-center gap-2 text-xs font-bold text-content dark:text-gray-300">
+                        <span className="flex items-center gap-2 bg-surface-100 dark:bg-gray-700 px-3 py-1.5 rounded-lg border border-surface-200 dark:border-gray-600">
+                          <span className="w-2 h-2 rounded-full bg-primary-600"></span> {schedule.time}
                         </span>
                       </div>
                     </div>
@@ -160,8 +168,11 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="p-8 text-center text-slate-500 dark:text-slate-400 text-sm">
-                Tidak ada jadwal kegiatan mendatang.
+              <div className="p-10 text-center">
+                <div className="w-16 h-16 bg-surface-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-content-muted dark:text-gray-500" />
+                </div>
+                <p className="text-base font-medium text-content-muted dark:text-gray-400">Tidak ada jadwal kegiatan mendatang.</p>
               </div>
             )}
           </CardContent>

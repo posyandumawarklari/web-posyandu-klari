@@ -72,3 +72,11 @@ export function useSettings() {
     staleTime: 1000 * 60 * 10,
   });
 }
+
+export function usePublicPosyanduPosts() {
+  return useQuery({
+    queryKey: ['public', 'posyandu-posts'],
+    queryFn: () => publicService.getPosyanduPosts().then((res) => res.data.data),
+    staleTime: 1000 * 60 * 5,
+  });
+}

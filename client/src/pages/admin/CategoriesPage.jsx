@@ -76,9 +76,9 @@ export default function CategoriesPage() {
   };
 
   const columns = [
-    { header: 'Nama Kategori', accessor: (row) => <span className="font-medium text-slate-900 dark:text-white">{row.name}</span> },
-    { header: 'Slug', accessor: 'slug', className: 'text-slate-500' },
-    { header: 'Dibuat Pada', accessor: (row) => formatDate(row.createdAt) },
+    { header: 'Nama Kategori', accessor: (row) => <span className="font-bold text-content dark:text-white text-base">{row.name}</span> },
+    { header: 'Slug', accessor: 'slug', className: 'text-content-muted font-medium' },
+    { header: 'Dibuat Pada', accessor: (row) => <span className="font-medium">{formatDate(row.createdAt)}</span> },
     {
       header: 'Aksi',
       className: 'w-24 text-right',
@@ -86,7 +86,7 @@ export default function CategoriesPage() {
         <div className="flex items-center justify-end gap-2">
           <button 
             onClick={() => handleOpenModal(row)}
-            className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors"
+            className="p-2 text-content-muted hover:text-primary-800 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 rounded-xl transition-all"
             title="Edit"
           >
             <Edit2 className="w-4 h-4" />
@@ -94,7 +94,7 @@ export default function CategoriesPage() {
           <button 
             onClick={() => handleDelete(row.id)}
             disabled={isDeleting}
-            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-content-muted hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 rounded-xl transition-all disabled:opacity-50"
             title="Hapus"
           >
             <Trash2 className="w-4 h-4" />
@@ -105,40 +105,42 @@ export default function CategoriesPage() {
   ];
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700 max-w-7xl mx-auto">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Kategori Artikel</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Kelola kategori untuk mengelompokkan artikel Anda.</p>
+          <h1 className="text-3xl font-heading font-bold text-content dark:text-white tracking-tight">Kategori Artikel</h1>
+          <p className="text-base font-medium text-content-muted dark:text-gray-400 mt-2">Kelola kategori untuk mengelompokkan artikel Anda.</p>
         </div>
-        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />}>
+        <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-5 h-5" />} className="px-6 py-2.5 rounded-xl shadow-sm hover:shadow-soft-xl transition-all font-bold">
           Tambah Kategori
         </Button>
       </div>
 
       {/* Data Table */}
-      <DataTable
-        columns={columns}
-        data={data?.data}
-        isLoading={isLoading}
-        pagination={{
-          currentPage: data?.meta?.page || 1,
-          totalPages: data?.meta?.totalPages || 1,
-          onPageChange: setPage,
-        }}
-        emptyState={{
-          icon: Folder,
-          title: 'Tidak ada kategori',
-          description: 'Anda belum membuat kategori artikel satupun.',
-          action: (
-            <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />} variant="outline">
-              Buat Kategori Pertama
-            </Button>
-          )
-        }}
-      />
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-soft-xl border border-surface-200 dark:border-gray-700 overflow-hidden">
+        <DataTable
+          columns={columns}
+          data={data?.data}
+          isLoading={isLoading}
+          pagination={{
+            currentPage: data?.meta?.page || 1,
+            totalPages: data?.meta?.totalPages || 1,
+            onPageChange: setPage,
+          }}
+          emptyState={{
+            icon: Folder,
+            title: 'Tidak ada kategori',
+            description: 'Anda belum membuat kategori artikel satupun.',
+            action: (
+              <Button onClick={() => handleOpenModal()} leftIcon={<Plus className="w-4 h-4" />} variant="outline" className="rounded-xl border-surface-300 dark:border-gray-600">
+                Buat Kategori Pertama
+              </Button>
+            )
+          }}
+        />
+      </div>
 
       {/* Form Modal */}
       <Modal 
@@ -146,16 +148,16 @@ export default function CategoriesPage() {
         onClose={handleCloseModal}
         title={editingId ? 'Edit Kategori' : 'Tambah Kategori Baru'}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-2">
           <Input 
             label="Nama Kategori" 
             placeholder="Misal: Kesehatan Anak" 
             {...register('name')}
             error={errors.name?.message}
           />
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <Button type="button" variant="ghost" onClick={handleCloseModal}>Batal</Button>
-            <Button type="submit" isLoading={isCreating || isUpdating}>
+          <div className="flex justify-end gap-3 pt-6 border-t border-surface-100 dark:border-gray-700">
+            <Button type="button" variant="ghost" onClick={handleCloseModal} className="rounded-xl">Batal</Button>
+            <Button type="submit" isLoading={isCreating || isUpdating} className="rounded-xl px-6">
               {editingId ? 'Simpan Perubahan' : 'Tambahkan'}
             </Button>
           </div>
