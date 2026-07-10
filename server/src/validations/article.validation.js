@@ -1,14 +1,12 @@
 const { z } = require('zod');
 
-const createArticleSchema = z.object({
+const baseSchema = z.object({
   title: z
     .string({ required_error: 'Judul wajib diisi' })
     .min(5, 'Judul minimal 5 karakter')
     .max(200, 'Judul maksimal 200 karakter')
     .trim(),
-  content: z
-    .string({ required_error: 'Konten wajib diisi' })
-    .min(10, 'Konten minimal 10 karakter'),
+  content: z.string().optional().nullable(),
   excerpt: z.string().max(500, 'Ringkasan maksimal 500 karakter').optional().nullable(),
   categoryId: z.string().optional().nullable(),
   tags: z.union([
@@ -21,9 +19,44 @@ const createArticleSchema = z.object({
   seoDescription: z.string().max(200, 'SEO description maksimal 200 karakter').optional().nullable(),
 });
 
-const updateArticleSchema = createArticleSchema.partial().extend({
-  title: z.string().min(5, 'Judul minimal 5 karakter').max(200).trim().optional(),
-  content: z.string().min(10, 'Konten minimal 10 karakter').optional(),
+const createArticleSchema = baseSchema.superRefine((data, ctx) => {
+  if (data.status === 'PUBLISHED') {
+    if (!data.content || data.content.length < 10) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Konten minimal 10 karakter untuk publikasi',
+        path: ['content'],
+      });
+    }
+    if (!data.categoryId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Kategori wajib dipilih untuk publikasi',
+        path: ['categoryId'],
+      });
+    }
+  }
+});
+
+const updateArticleSchema = baseSchema.partial().superRefine((data, ctx) => {
+  if (data.status === 'PUBLISHED') {
+    if (data.content !== undefined && (!data.content || data.content.length < 10)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Konten minimal 10 karakter untuk publikasi',
+        path: ['content'],
+      });
+    }
+    // For update, if categoryId is sent, it must be valid for publishing, but often it might not be sent.
+    // We should enforce it if they try to change it to empty while publishing.
+    if (data.categoryId !== undefined && !data.categoryId) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Kategori wajib dipilih untuk publikasi',
+        path: ['categoryId'],
+      });
+    }
+  }
 });
 
 module.exports = { createArticleSchema, updateArticleSchema };
