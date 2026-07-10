@@ -24,6 +24,13 @@ const errorHandler = (err, req, res, _next) => {
     });
   }
 
+  if (err.code === 'P2003') {
+    return sendError(res, {
+      statusCode: 400,
+      message: 'Data referensi tidak valid atau tidak ditemukan.',
+    });
+  }
+
   if (err.code === 'P2025') {
     return sendError(res, {
       statusCode: 404,
@@ -35,7 +42,7 @@ const errorHandler = (err, req, res, _next) => {
   if (err.code === 'LIMIT_FILE_SIZE') {
     return sendError(res, {
       statusCode: 400,
-      message: 'Ukuran file terlalu besar. Maksimum 2MB.',
+      message: 'Ukuran file terlalu besar. Maksimum 5MB.',
     });
   }
 

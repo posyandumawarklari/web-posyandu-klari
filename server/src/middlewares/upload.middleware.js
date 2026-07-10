@@ -4,7 +4,7 @@ const { sendError } = require('../utils/response');
 
 // Allowed file types
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 const storage = multer.memoryStorage();
 
@@ -36,7 +36,7 @@ const handleUpload = (fieldName) => {
         if (err.code === 'LIMIT_FILE_SIZE') {
           return sendError(res, {
             statusCode: 400,
-            message: 'Ukuran file terlalu besar. Maksimum 2MB.',
+            message: 'Ukuran file terlalu besar. Maksimum 5MB.',
           });
         }
         return sendError(res, {
@@ -70,7 +70,7 @@ const handleUploadFields = (fields) => {
         if (err.code === 'LIMIT_FILE_SIZE') {
           return sendError(res, {
             statusCode: 400,
-            message: 'Ukuran file terlalu besar. Maksimum 2MB.',
+            message: 'Ukuran file terlalu besar. Maksimum 5MB.',
           });
         }
         return sendError(res, {

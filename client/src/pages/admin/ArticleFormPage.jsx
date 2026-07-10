@@ -116,7 +116,8 @@ export default function ArticleFormPage() {
         content: formData.content,
         excerpt: formData.excerpt,
         categoryId: formData.categoryId,
-        tags: formData.tags.map(t => t.value),
+        tags: formData.tags || [],
+        status: formData.status,
         thumbnail: imageFile || article?.thumbnail || null
       };
 

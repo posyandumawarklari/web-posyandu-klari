@@ -81,7 +81,7 @@ export default function ArticlesPage() {
               <Edit2 className="w-4 h-4" />
             </Link>
             <button 
-              onClick={() => handleDelete(row.slug)}
+              onClick={() => handleDelete(row.id)}
               disabled={isDeleting}
               className="p-2 text-content-muted hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 rounded-xl transition-all disabled:opacity-50"
               title="Hapus"
