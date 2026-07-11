@@ -13,8 +13,8 @@ export default function Dashboard() {
         <div>
           <h1 className="text-3xl font-heading font-bold text-content dark:text-white">Dashboard Overview</h1>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-40 rounded-2xl" />)}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-40 rounded-2xl" />)}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Skeleton className="h-[400px] rounded-2xl" />
@@ -24,39 +24,26 @@ export default function Dashboard() {
     );
   }
 
-  const { stats, recentArticles, recentSchedules } = data || {};
+  const { stats, recentArticles, upcomingSchedules, recentPosts } = data || {};
 
     const statCards = [
     {
       title: 'Total Artikel',
       value: stats?.totalArticles || 0,
       icon: FileText,
-      trend: '+12%', // Static for visual purposes, backend can be enhanced later
-      trendUp: true,
       color: 'bg-primary-800',
-    },
-    {
-      title: 'Kategori Aktif',
-      value: stats?.totalCategories || 0,
-      icon: TrendingUp,
-      trend: '+3',
-      trendUp: true,
-      color: 'bg-emerald-600',
+      subtitle: 'Termasuk draft',
     },
     {
       title: 'Kegiatan Bulan Ini',
-      value: stats?.totalSchedules || 0,
+      value: stats?.activitiesThisMonth || 0,
       icon: Calendar,
-      trend: '-1',
-      trendUp: false,
       color: 'bg-amber-500',
     },
     {
       title: 'Foto Galeri',
       value: stats?.totalGallery || 0,
       icon: ImageIcon,
-      trend: '+8',
-      trendUp: true,
       color: 'bg-indigo-600',
     }
   ];
@@ -73,22 +60,23 @@ export default function Dashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {statCards.map((stat, index) => (
           <Card key={index} className="border-none shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300 rounded-2xl bg-white dark:bg-gray-800 overflow-hidden relative group">
             <div className={`absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-10 transition-transform duration-500 group-hover:scale-110 ${stat.color}`}></div>
-            <CardContent className="p-6 relative z-10">
+            <CardContent className="p-6 relative z-10 flex flex-col h-full">
               <div className="flex items-center justify-between mb-6">
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-sm ${stat.color}`}>
                   <stat.icon className="w-6 h-6" />
                 </div>
-                <div className={`flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-full ${stat.trendUp ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'}`}>
-                  {stat.trendUp ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                  {stat.trend}
-                </div>
               </div>
               <p className="text-sm font-semibold text-content-muted dark:text-gray-400 mb-1 uppercase tracking-wide">{stat.title}</p>
-              <h3 className="text-4xl font-heading font-bold text-content dark:text-white">{stat.value}</h3>
+              <div className="flex items-end gap-3 mt-auto">
+                <h3 className="text-4xl font-heading font-bold text-content dark:text-white">{stat.value}</h3>
+                {stat.subtitle && (
+                  <span className="text-xs font-medium text-content-muted dark:text-gray-400 mb-1.5">{stat.subtitle}</span>
+                )}
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -131,7 +119,7 @@ export default function Dashboard() {
                 <div className="w-16 h-16 bg-surface-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <FileText className="w-8 h-8 text-content-muted dark:text-gray-500" />
                 </div>
-                <p className="text-base font-medium text-content-muted dark:text-gray-400">Belum ada artikel yang ditulis.</p>
+                <p className="text-base font-medium text-content-muted dark:text-gray-400">📄 Belum ada artikel yang tersedia.</p>
               </div>
             )}
           </CardContent>
@@ -143,9 +131,9 @@ export default function Dashboard() {
             <CardTitle className="text-xl font-heading font-bold text-content dark:text-white">Jadwal Mendatang</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            {recentSchedules?.length > 0 ? (
+            {upcomingSchedules?.length > 0 ? (
               <div className="divide-y divide-surface-100 dark:divide-gray-700">
-                {recentSchedules.map(schedule => (
+                {upcomingSchedules.map(schedule => (
                   <div key={schedule.id} className="p-5 flex items-start gap-5 hover:bg-surface-50 dark:hover:bg-gray-700/50 transition-colors group">
                     <div className="w-14 h-16 rounded-xl border border-surface-200 dark:border-gray-700 flex flex-col overflow-hidden shrink-0 shadow-sm group-hover:border-primary-300 transition-colors">
                       <div className="bg-primary-800 text-white text-[10px] font-bold text-center py-1 uppercase tracking-widest">
@@ -160,7 +148,7 @@ export default function Dashboard() {
                       <p className="text-sm font-medium text-content-muted dark:text-gray-400 mb-3 line-clamp-1">{schedule.location}</p>
                       <div className="flex items-center gap-2 text-xs font-bold text-content dark:text-gray-300">
                         <span className="flex items-center gap-2 bg-surface-100 dark:bg-gray-700 px-3 py-1.5 rounded-lg border border-surface-200 dark:border-gray-600">
-                          <span className="w-2 h-2 rounded-full bg-primary-600"></span> {schedule.time}
+                          <span className="w-2 h-2 rounded-full bg-primary-600"></span> {schedule.startTime}
                         </span>
                       </div>
                     </div>
@@ -172,11 +160,13 @@ export default function Dashboard() {
                 <div className="w-16 h-16 bg-surface-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Calendar className="w-8 h-8 text-content-muted dark:text-gray-500" />
                 </div>
-                <p className="text-base font-medium text-content-muted dark:text-gray-400">Tidak ada jadwal kegiatan mendatang.</p>
+                <p className="text-base font-medium text-content-muted dark:text-gray-400">📅 Belum ada jadwal kegiatan mendatang.</p>
               </div>
             )}
           </CardContent>
         </Card>
+
+
 
       </div>
     </div>
