@@ -86,70 +86,71 @@ export default function CalendarOnly() {
       </div>
 
       {/* Calendar Grid Container (Tanpa pemaksaan tinggi min-h) */}
-      <div className="w-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-        
-        {/* Calendar Header (Hari) */}
-        <div className="grid grid-cols-7 border-b border-gray-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/50">
-          {['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'].map((day) => (
-            <div key={day} className="py-3 text-center text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              {day}
-            </div>
-          ))}
-        </div>
-
-        {/* Calendar Body (Tanpa pemaksaan grid-rows) */}
-        <div className="flex-1 grid grid-cols-7 bg-gray-100 dark:bg-gray-800 gap-[1px]">
-          {isLoading ? (
-            Array.from({ length: 35 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-gray-900 p-2 min-h-[100px]">
-                <Skeleton className="w-full h-full rounded bg-slate-50" />
+      <div className="w-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm overflow-x-auto flex flex-col">
+        <div className="min-w-[700px] flex flex-col">
+          {/* Calendar Header (Hari) */}
+          <div className="grid grid-cols-7 border-b border-gray-100 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/50">
+            {['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'].map((day) => (
+              <div key={day} className="py-3 text-center text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                {day}
               </div>
-            ))
-          ) : (
-            daysArray.map((day, index) => {
-              const daySchedules = day ? currentMonthSchedules.filter(s => new Date(s.date).getDate() === day) : [];
-              const isToday = day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear();
+            ))}
+          </div>
 
-              return (
-                <div 
-                  key={index} 
-                  className={`bg-white dark:bg-gray-900 p-1 sm:p-2.5 min-h-[80px] md:min-h-[100px] flex flex-col gap-1 transition-colors ${!day ? 'bg-slate-50/30 dark:bg-gray-900/30 text-transparent' : 'text-slate-700 dark:text-gray-300'} hover:bg-slate-50 dark:hover:bg-gray-800/80 group cursor-default`}
-                >
-                  {day && (
-                    <span className={`text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full mb-1 ${isToday ? 'bg-primary-500 text-white shadow-md' : 'group-hover:text-primary-600'}`}>
-                      {day}
-                    </span>
-                  )}
-
-                  <div className="flex-1 flex flex-col gap-1 overflow-y-auto hide-scrollbar">
-                    {daySchedules.map((schedule, sIdx) => {
-                      const colorClass = sIdx % 2 === 0 
-                        ? 'bg-red-50 text-red-700 border border-red-100/50 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/30'
-                        : 'bg-indigo-50 text-indigo-700 border border-indigo-100/50 dark:bg-indigo-900/20 dark:text-indigo-300 dark:border-indigo-900/30';
-                      
-                      const isSelected = selectedSchedule?.id === schedule.id;
-                      
-                      return (
-                        <button 
-                          key={schedule.id}
-                          onClick={(e) => { e.stopPropagation(); setSelectedSchedule(schedule); }}
-                          className={`text-left w-full rounded-md sm:rounded-lg px-1.5 sm:px-2 py-1 sm:py-1.5 transition-all focus:outline-none ${isSelected ? 'ring-2 ring-primary-500 shadow-md scale-105 z-10' : 'hover:scale-[1.02] hover:shadow-sm'} ${colorClass}`}
-                        >
-                          <div className="flex items-center gap-1 sm:gap-1.5 mb-0.5">
-                             <div className={`hidden sm:flex w-2.5 h-2.5 rounded-full items-center justify-center shrink-0 bg-white/60 dark:bg-black/20`}>
-                               <div className={`w-1 h-1 rounded-full ${sIdx % 2 === 0 ? 'bg-red-500' : 'bg-indigo-500'}`} />
-                             </div>
-                             <p className="text-[9px] sm:text-xs font-bold truncate leading-tight">{schedule.activityName}</p>
-                          </div>
-                          <p className="text-[8px] sm:text-[9px] font-medium opacity-80 sm:pl-3.5 hidden sm:block">{schedule.startTime}</p>
-                        </button>
-                      );
-                    })}
-                  </div>
+          {/* Calendar Body (Tanpa pemaksaan grid-rows) */}
+          <div className="flex-1 grid grid-cols-7 bg-gray-100 dark:bg-gray-800 gap-[1px]">
+            {isLoading ? (
+              Array.from({ length: 35 }).map((_, i) => (
+                <div key={i} className="bg-white dark:bg-gray-900 p-2 min-h-[100px]">
+                  <Skeleton className="w-full h-full rounded bg-slate-50" />
                 </div>
-              );
-            })
-          )}
+              ))
+            ) : (
+              daysArray.map((day, index) => {
+                const daySchedules = day ? currentMonthSchedules.filter(s => new Date(s.date).getDate() === day) : [];
+                const isToday = day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear();
+
+                return (
+                  <div 
+                    key={index} 
+                    className={`bg-white dark:bg-gray-900 p-1 sm:p-2.5 min-h-[80px] md:min-h-[100px] flex flex-col gap-1 transition-colors ${!day ? 'bg-slate-50/30 dark:bg-gray-900/30 text-transparent' : 'text-slate-700 dark:text-gray-300'} hover:bg-slate-50 dark:hover:bg-gray-800/80 group cursor-default`}
+                  >
+                    {day && (
+                      <span className={`text-xs font-semibold w-6 h-6 flex items-center justify-center rounded-full mb-1 ${isToday ? 'bg-primary-500 text-white shadow-md' : 'group-hover:text-primary-600'}`}>
+                        {day}
+                      </span>
+                    )}
+
+                    <div className="flex-1 flex flex-col gap-1 overflow-y-auto hide-scrollbar">
+                      {daySchedules.map((schedule, sIdx) => {
+                        const colorClass = sIdx % 2 === 0 
+                          ? 'bg-red-50 text-red-700 border border-red-100/50 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/30'
+                          : 'bg-indigo-50 text-indigo-700 border border-indigo-100/50 dark:bg-indigo-900/20 dark:text-indigo-300 dark:border-indigo-900/30';
+                        
+                        const isSelected = selectedSchedule?.id === schedule.id;
+                        
+                        return (
+                          <button 
+                            key={schedule.id}
+                            onClick={(e) => { e.stopPropagation(); setSelectedSchedule(schedule); }}
+                            className={`text-left w-full rounded-md sm:rounded-lg px-1.5 sm:px-2 py-1 sm:py-1.5 transition-all focus:outline-none ${isSelected ? 'ring-2 ring-primary-500 shadow-md scale-105 z-10' : 'hover:scale-[1.02] hover:shadow-sm'} ${colorClass}`}
+                          >
+                            <div className="flex items-center gap-1 sm:gap-1.5 mb-0.5">
+                               <div className={`hidden sm:flex w-2.5 h-2.5 rounded-full items-center justify-center shrink-0 bg-white/60 dark:bg-black/20`}>
+                                 <div className={`w-1 h-1 rounded-full ${sIdx % 2 === 0 ? 'bg-red-500' : 'bg-indigo-500'}`} />
+                               </div>
+                               <p className="text-[9px] sm:text-xs font-bold truncate leading-tight">{schedule.activityName}</p>
+                            </div>
+                            <p className="text-[8px] sm:text-[9px] font-medium opacity-80 sm:pl-3.5 hidden sm:block">{schedule.startTime}</p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, FolderOpen, Tag, Heart,
   Image, CalendarDays, Users, Settings, User, LogOut,
-  X, Stethoscope, MapPin,
+  X, Stethoscope, MapPin, Home
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -91,11 +91,19 @@ export default function Sidebar({ open, onClose }) {
           }`}
         >
           {user?.avatar ? (
-            <img src={user.avatar} alt="Profile" className="w-8 h-8 rounded-lg object-cover" />
+            <img src={user.avatar} alt="Profile" className="w-8 h-8 rounded-lg object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
           ) : (
             <User className="w-[18px] h-[18px]" />
           )}
           {user?.name || 'Profil'}
+        </Link>
+        <Link
+          to="/"
+          onClick={onClose}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-content-muted hover:bg-surface-100 hover:text-content dark:text-gray-400 dark:hover:bg-gray-800 transition-all border border-transparent"
+        >
+          <Home className="w-[18px] h-[18px]" />
+          Kembali ke Beranda
         </Link>
         <button
           onClick={handleLogout}

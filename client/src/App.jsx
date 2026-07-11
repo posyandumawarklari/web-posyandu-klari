@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Loader2 } from 'lucide-react';
 import ProtectedRoute from './components/ProtectedRoute';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 
 // ─── Lazy-loaded Layouts ───────────────────────────
 const PublicLayout = lazy(() => import('./layouts/PublicLayout'));
@@ -49,73 +50,75 @@ function PageLoader() {
 
 export default function App() {
   return (
-    <Suspense fallback={<PageLoader />}>
-      <Routes>
-        <Route element={<PublicLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="artikel" element={<ArticlesPage />} />
-          <Route path="artikel/:slug" element={<ArticleDetailPage />} />
-          <Route path="program" element={<ProgramsPage />} />
-          <Route path="tentang-kami" element={<AboutPage />} />
-          <Route path="galeri" element={<GalleryPage />} />
-          <Route path="jadwal" element={<SchedulePage />} />
-          <Route path="kontak" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
+    <ErrorBoundary>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="artikel" element={<ArticlesPage />} />
+            <Route path="artikel/:slug" element={<ArticleDetailPage />} />
+            <Route path="program" element={<ProgramsPage />} />
+            <Route path="tentang-kami" element={<AboutPage />} />
+            <Route path="galeri" element={<GalleryPage />} />
+            <Route path="jadwal" element={<SchedulePage />} />
+            <Route path="kontak" element={<ContactPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
 
-        {/* ── Auth Route ───────────────────────── */}
-        <Route path="login" element={<LoginPage />} />
+          {/* ── Auth Route ───────────────────────── */}
+          <Route path="login" element={<LoginPage />} />
 
-        {/* ── Cadre Routes (Dashboard) ────────── */}
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute requiredRole="CADRE">
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="artikel" element={<AdminArticles />} />
-          <Route path="artikel/tambah" element={<AdminArticleForm />} />
-          <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
-          <Route path="kategori" element={<AdminCategories />} />
-          <Route path="tag" element={<AdminTags />} />
-          <Route path="program" element={<AdminPrograms />} />
-          <Route path="posyandu" element={<AdminPosyanduPosts />} />
-          <Route path="galeri" element={<AdminGallery />} />
-          <Route path="jadwal" element={<AdminSchedules />} />
-          <Route path="profil" element={<AdminProfile />} />
-        </Route>
+          {/* ── Cadre Routes (Dashboard) ────────── */}
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedRoute requiredRole="CADRE">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="artikel" element={<AdminArticles />} />
+            <Route path="artikel/tambah" element={<AdminArticleForm />} />
+            <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
+            <Route path="kategori" element={<AdminCategories />} />
+            <Route path="tag" element={<AdminTags />} />
+            <Route path="program" element={<AdminPrograms />} />
+            <Route path="posyandu" element={<AdminPosyanduPosts />} />
+            <Route path="galeri" element={<AdminGallery />} />
+            <Route path="jadwal" element={<AdminSchedules />} />
+            <Route path="profil" element={<AdminProfile />} />
+          </Route>
 
-        {/* ── Admin Routes ─────────────────────── */}
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute requiredRole="ADMIN">
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="artikel" element={<AdminArticles />} />
-          <Route path="artikel/tambah" element={<AdminArticleForm />} />
-          <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
-          <Route path="kategori" element={<AdminCategories />} />
-          <Route path="tag" element={<AdminTags />} />
-          <Route path="program" element={<AdminPrograms />} />
-          <Route path="posyandu" element={<AdminPosyanduPosts />} />
-          <Route path="galeri" element={<AdminGallery />} />
-          <Route path="jadwal" element={<AdminSchedules />} />
-          <Route path="pengguna" element={<AdminUsers />} />
-          <Route path="pengaturan" element={<AdminSettings />} />
-          <Route path="profil" element={<AdminProfile />} />
-        </Route>
+          {/* ── Admin Routes ─────────────────────── */}
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute requiredRole="ADMIN">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="artikel" element={<AdminArticles />} />
+            <Route path="artikel/tambah" element={<AdminArticleForm />} />
+            <Route path="artikel/:slug/edit" element={<AdminArticleForm />} />
+            <Route path="kategori" element={<AdminCategories />} />
+            <Route path="tag" element={<AdminTags />} />
+            <Route path="program" element={<AdminPrograms />} />
+            <Route path="posyandu" element={<AdminPosyanduPosts />} />
+            <Route path="galeri" element={<AdminGallery />} />
+            <Route path="jadwal" element={<AdminSchedules />} />
+            <Route path="pengguna" element={<AdminUsers />} />
+            <Route path="pengaturan" element={<AdminSettings />} />
+            <Route path="profil" element={<AdminProfile />} />
+          </Route>
 
-        {/* ── Catch-all ────────────────────────── */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Suspense>
+          {/* ── Catch-all ────────────────────────── */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

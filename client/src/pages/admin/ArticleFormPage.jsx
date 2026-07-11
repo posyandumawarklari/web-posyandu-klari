@@ -325,7 +325,7 @@ export default function ArticleFormPage() {
               <div className="flex justify-center p-4 lg:p-6 border-2 border-surface-200 dark:border-gray-700 border-dashed rounded-xl relative overflow-hidden group hover:border-primary-400 dark:hover:border-primary-600 transition-colors bg-surface-50 dark:bg-gray-900/50">
                 {imagePreview ? (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm">
-                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <label className="cursor-pointer bg-white text-content px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl hover:bg-surface-50 transition-colors min-h-[44px] flex items-center">
                         Ganti Gambar

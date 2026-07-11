@@ -86,7 +86,7 @@ export default function ProgramsPage() {
                         src={getImageUrl(activeProgram.image)} 
                         alt={activeProgram.title} 
                         className="w-full h-full object-cover animate-fade-in"
-                      />
+                       onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                     ) : (
                       <Users className="w-16 h-16 sm:w-24 sm:h-24 text-surface-300 dark:text-gray-600 animate-pulse" />
                     )}

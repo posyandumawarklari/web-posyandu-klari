@@ -109,7 +109,7 @@ export default function ProgramKami({ programs }) {
                   src={getImageUrl(activeProgram.image)} 
                   alt={activeProgram.title} 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" 
-                />
+                 onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Users className="w-20 h-20 text-surface-300/50 dark:text-gray-500/50" />

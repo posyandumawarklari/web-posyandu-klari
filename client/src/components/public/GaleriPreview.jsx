@@ -67,7 +67,7 @@ export default function GaleriPreview({ galleryPreview }) {
                     src={getImageUrl(img.imageUrl)} 
                     alt={img.title} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ease-in-out" 
-                  />
+                   onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ImageIcon className="w-10 h-10 md:w-16 md:h-16 text-surface-400 dark:text-gray-600 opacity-50" />

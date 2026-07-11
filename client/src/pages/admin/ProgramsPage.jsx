@@ -119,7 +119,7 @@ export default function ProgramsPage() {
         <div className="flex items-center gap-5 max-w-sm py-2">
           <div className="w-20 h-16 rounded-xl bg-surface-100 dark:bg-gray-800 overflow-hidden shrink-0 border border-surface-200 dark:border-gray-700 shadow-sm">
             {row.image ? (
-              <img src={getImageUrl(row.image)} alt={row.title} className="w-full h-full object-cover" />
+              <img src={getImageUrl(row.image)} alt={row.title} className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-primary-300 dark:text-primary-800/40 bg-primary-50 dark:bg-primary-900/20">
                 <ImageIcon className="w-6 h-6" />
@@ -212,7 +212,7 @@ export default function ProgramsPage() {
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-surface-200 dark:border-gray-700 border-dashed rounded-xl relative overflow-hidden group hover:border-primary-400 dark:hover:border-primary-600 transition-colors bg-surface-50 dark:bg-gray-900/50">
               {imagePreview ? (
                 <div className="relative w-full h-56 rounded-lg overflow-hidden shadow-sm">
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <label className="cursor-pointer bg-white text-content px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl hover:bg-surface-50 transition-colors">
                       Ganti Gambar

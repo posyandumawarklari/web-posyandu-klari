@@ -77,7 +77,7 @@ export default function Navbar() {
                 src={logoSrc}
                 alt="Logo Posyandu"
                 className="h-10 w-auto group-hover:scale-105 transition-transform rounded-full" 
-              />
+               onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
               <span className="font-heading font-bold text-lg text-content dark:text-white tracking-tight hidden sm:block max-w-[150px] truncate">
                 {siteName}
               </span>
@@ -125,7 +125,7 @@ export default function Navbar() {
                   >
                     <div className="w-7 h-7 rounded-full bg-primary-100 text-primary-800 dark:bg-gray-700 dark:text-primary-400 flex items-center justify-center font-bold text-xs overflow-hidden">
                       {user?.avatar ? (
-                        <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+                        <img src={user.avatar} alt="Profile" className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                       ) : (
                         user?.name?.charAt(0).toUpperCase()
                       )}

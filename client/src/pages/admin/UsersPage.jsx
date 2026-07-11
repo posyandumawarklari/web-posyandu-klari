@@ -110,7 +110,7 @@ export default function UsersPage() {
         <div className="flex items-center gap-4 py-1">
           <div className="w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 overflow-hidden shrink-0 border border-primary-200 dark:border-primary-800/30 shadow-sm flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold text-lg">
             {row.avatar ? (
-              <img src={row.avatar} alt={row.name} className="w-full h-full object-cover" />
+              <img src={row.avatar} alt={row.name} className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
             ) : (
               row.name.charAt(0).toUpperCase()
             )}

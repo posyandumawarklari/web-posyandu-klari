@@ -139,7 +139,7 @@ export default function GalleryPage() {
                     src={getImageUrl(img.imageUrl)} 
                     alt={img.title} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
+                   onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
                     <div className="flex justify-end translate-y-[-10px] group-hover:translate-y-0 transition-transform duration-300">
                       <button 
@@ -188,7 +188,7 @@ export default function GalleryPage() {
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-surface-200 dark:border-gray-700 border-dashed rounded-xl relative overflow-hidden group hover:border-primary-400 dark:hover:border-primary-600 transition-colors bg-surface-50 dark:bg-gray-900/50">
               {imagePreview ? (
                 <div className="relative w-full aspect-square max-h-64 rounded-lg overflow-hidden shadow-sm">
-                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={imagePreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                     <label className="cursor-pointer bg-white text-content px-5 py-2.5 rounded-xl font-bold text-sm shadow-xl hover:bg-surface-50 transition-colors">
                       Ganti Gambar

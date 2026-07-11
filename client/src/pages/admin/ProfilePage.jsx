@@ -128,7 +128,7 @@ export default function ProfilePage() {
               <div className="flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                 <div className="w-32 h-32 rounded-3xl bg-surface-100 dark:bg-gray-700 overflow-hidden flex-shrink-0 border-4 border-white dark:border-gray-800 shadow-soft-xl relative group">
                   {avatarPreview ? (
-                    <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img src={avatarPreview} alt="Preview" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-content-muted/50 dark:text-gray-500">
                       <User className="w-12 h-12" />

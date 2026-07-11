@@ -147,7 +147,7 @@ export default function SettingsPage() {
               <div className="flex flex-col sm:flex-row gap-6 items-start">
                 {heroImagePreview ? (
                   <div className="relative w-full sm:w-64 h-40 rounded-xl overflow-hidden shadow-sm border border-surface-200 dark:border-gray-700">
-                    <img src={heroImagePreview} alt="Hero Preview" className="w-full h-full object-cover" />
+                    <img src={heroImagePreview} alt="Hero Preview" className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   </div>
                 ) : (
                   <div className="w-full sm:w-64 h-40 rounded-xl border-2 border-dashed border-surface-300 dark:border-gray-600 flex flex-col items-center justify-center bg-surface-50 dark:bg-gray-800/50 text-content-muted">

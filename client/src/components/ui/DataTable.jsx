@@ -1,6 +1,7 @@
 import { Loader2 } from 'lucide-react';
 import EmptyState from './EmptyState';
 import Pagination from './Pagination';
+import SkeletonLoader from './SkeletonLoader';
 
 /**
  * DataTable Component
@@ -20,9 +21,8 @@ export default function DataTable({
 }) {
   if (isLoading) {
     return (
-      <div className="w-full bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 min-h-[400px] flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 text-primary-500 animate-spin mb-4" />
-        <p className="text-sm text-content-muted dark:text-gray-400">Memuat data...</p>
+      <div className="w-full bg-surface dark:bg-gray-800 rounded-xl shadow-soft border border-surface-200 dark:border-gray-700 min-h-[400px] flex flex-col p-6">
+        <SkeletonLoader type="table-row" count={5} />
       </div>
     );
   }

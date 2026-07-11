@@ -1,5 +1,6 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { handleApiError } from '../utils/errorHandler';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -72,8 +73,7 @@ api.interceptors.response.use(
 
     // Show error toast for non-auth errors
     if (error.response?.status !== 401) {
-      const message = error.response?.data?.message || 'Terjadi kesalahan. Coba lagi nanti.';
-      toast.error(message);
+      handleApiError(error);
     }
 
     return Promise.reject(error);

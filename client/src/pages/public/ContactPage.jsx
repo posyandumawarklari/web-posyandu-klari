@@ -59,7 +59,7 @@ export default function ContactPage() {
               src={peta}
               alt="Peta Wilayah Klari" 
               className="w-full h-auto max-h-[75vh] object-contain block drop-shadow-xl opacity-90 dark:opacity-80"
-            />
+             onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
             {/* Pin Wrapper */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
               {!isLoadingPosyandu && posyanduPosts?.map((kader) => (

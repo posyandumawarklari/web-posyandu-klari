@@ -175,7 +175,7 @@ export default function ArticlesPage() {
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-surface-200 dark:bg-gray-700 overflow-hidden border-2 border-white dark:border-gray-800 shadow-sm">
                         {article.author?.avatar ? (
-                          <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover" />
+                          <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                         ) : (
                           <div className="w-full h-full text-primary-800 dark:text-primary-300 flex items-center justify-center text-sm font-bold bg-primary-100 dark:bg-primary-900/50">
                             {article.author?.name?.charAt(0) || 'U'}
@@ -211,7 +211,7 @@ export default function ArticlesPage() {
                   {/* Bagian Bawah: Gambar Utama (Full melengkung) */}
                   <div className="relative w-full aspect-[4/3] sm:aspect-video md:aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-surface-200 dark:bg-gray-700 mt-auto shadow-sm">
                     {article.thumbnail ? (
-                      <img src={getImageUrl(article.thumbnail)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                      <img src={getImageUrl(article.thumbnail)} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-content-muted">
                         <FileText className="w-12 h-12 opacity-20" />

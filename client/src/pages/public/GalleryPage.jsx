@@ -64,7 +64,7 @@ export default function GalleryPage() {
                     alt={img.title} 
                     // h-auto memastikan gambar menyesuaikan proporsi aslinya (kolase)
                     className="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-700" 
-                  />
+                   onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                   
                   {/* Overlay Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-5 sm:p-6 lg:p-8">
@@ -107,7 +107,7 @@ export default function GalleryPage() {
                 src={getImageUrl(selectedImage.imageUrl)} 
                 alt={selectedImage.title}
                 className="max-h-[70vh] object-contain" 
-              />
+               onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
             </div>
             <div className="text-center">
               <p className="text-content-muted dark:text-gray-400 font-medium text-sm">

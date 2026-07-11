@@ -31,7 +31,7 @@ export default function AdminHeader({ onMenuClick }) {
         <div className="flex items-center gap-3 pl-3 border-l border-surface-200 dark:border-gray-700">
           <div className="w-8 h-8 rounded bg-primary-800 flex items-center justify-center text-white text-xs font-bold overflow-hidden">
             {user?.avatar ? (
-              <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+              <img src={user.avatar} alt="Profile" className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
             ) : (
               user?.name?.charAt(0)?.toUpperCase() || 'U'
             )}

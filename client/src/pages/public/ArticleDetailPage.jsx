@@ -62,7 +62,7 @@ export default function ArticleDetailPage() {
             src={getImageUrl(article.thumbnail)} 
             alt={article.title} 
             className="w-full h-full object-cover"
-          />
+           onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <FileText className="w-20 h-20 text-surface-400 dark:text-gray-600 opacity-30" />
@@ -99,7 +99,7 @@ export default function ArticleDetailPage() {
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm bg-primary-50 dark:bg-gray-800">
                 {article.author?.avatar ? (
-                  <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover" />
+                  <img src={getImageUrl(article.author.avatar)} alt={article.author.name} className="w-full h-full object-cover"  onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                 ) : (
                   <div className="w-full h-full text-primary-800 flex items-center justify-center font-bold text-lg">
                     {article.author?.name?.charAt(0) || 'U'}

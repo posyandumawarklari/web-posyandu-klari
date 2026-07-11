@@ -94,7 +94,7 @@ export default function ArtikelTerbaru({ latestArticles }) {
                         src={getImageUrl(article.thumbnail)} 
                         alt={article.title} 
                         className="w-full h-full object-cover" 
-                      />
+                       onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-content-muted">
                         <Activity className="w-10 h-10 sm:w-12 sm:h-12 opacity-30" />
@@ -146,7 +146,7 @@ export default function ArtikelTerbaru({ latestArticles }) {
                     src={getImageUrl(article.thumbnail)} 
                     alt={article.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" 
-                  />
+                   onError={(e) => { e.target.onerror = null; e.target.src="/placeholder-image.jpg"; }} />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-content-muted">
                     <Activity className="w-12 h-12 opacity-30" />
