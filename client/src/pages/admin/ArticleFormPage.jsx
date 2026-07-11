@@ -16,15 +16,17 @@ import { getImageUrl } from '../../utils/format';
 import { useAuth } from '../../context/AuthContext';
 
 const baseSchema = z.object({
-  title: z.string().min(1, 'Judul wajib diisi'),
+  title: z.string()
+    .min(5, 'Judul minimal 5 karakter')
+    .max(200, 'Judul maksimal 200 karakter'),
   content: z.string().optional().nullable(),
-  excerpt: z.string().optional(),
+  excerpt: z.string().max(500, 'Ringkasan maksimal 500 karakter').optional(),
   categoryId: z.string().optional().nullable(),
   tags: z.array(z.string()).optional(),
   status: z.enum(['DRAFT', 'PUBLISHED']),
   publishDate: z.string().optional().or(z.literal('')),
-  seoTitle: z.string().optional(),
-  seoDescription: z.string().optional(),
+  seoTitle: z.string().max(100, 'SEO title maksimal 100 karakter').optional(),
+  seoDescription: z.string().max(200, 'SEO description maksimal 200 karakter').optional(),
 });
 
 const articleSchema = baseSchema.superRefine((data, ctx) => {

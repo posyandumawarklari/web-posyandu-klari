@@ -6,17 +6,17 @@ const baseSchema = z.object({
     .min(5, 'Judul minimal 5 karakter')
     .max(200, 'Judul maksimal 200 karakter')
     .trim(),
-  content: z.string().optional().nullable(),
-  excerpt: z.string().max(500, 'Ringkasan maksimal 500 karakter').optional().nullable(),
-  categoryId: z.string().optional().nullable(),
+  content: z.string().optional().nullable().default(''),
+  excerpt: z.string().max(500, 'Ringkasan maksimal 500 karakter').optional().nullable().default(''),
+  categoryId: z.string().optional().nullable().transform((val) => val === '' ? null : val),
   tags: z.union([
     z.array(z.string()),
     z.string().transform((val) => val ? val.split(',').map(s => s.trim()).filter(Boolean) : []),
   ]).optional().default([]),
   status: z.enum(['DRAFT', 'PUBLISHED']).optional().default('DRAFT'),
   publishDate: z.string().datetime().optional().nullable(),
-  seoTitle: z.string().max(100, 'SEO title maksimal 100 karakter').optional().nullable(),
-  seoDescription: z.string().max(200, 'SEO description maksimal 200 karakter').optional().nullable(),
+  seoTitle: z.string().max(100, 'SEO title maksimal 100 karakter').optional().nullable().default(''),
+  seoDescription: z.string().max(200, 'SEO description maksimal 200 karakter').optional().nullable().default(''),
 });
 
 const createArticleSchema = baseSchema.superRefine((data, ctx) => {
