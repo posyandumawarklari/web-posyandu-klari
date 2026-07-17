@@ -152,11 +152,19 @@ export default function ArticleDetailPage() {
 
               prose-p:text-gray-700
               dark:prose-p:text-gray-200
+              dark:[&_p]:!text-gray-200
+              dark:[&_span]:!text-gray-200
               prose-p:mb-6
               prose-p:leading-8
 
               prose-headings:text-gray-900
               dark:prose-headings:text-white
+              dark:[&_h1]:!text-white
+              dark:[&_h2]:!text-white
+              dark:[&_h3]:!text-white
+              dark:[&_h4]:!text-white
+              dark:[&_h5]:!text-white
+              dark:[&_h6]:!text-white
               prose-headings:mt-10
               prose-headings:mb-5
               prose-headings:font-heading 
@@ -164,6 +172,7 @@ export default function ArticleDetailPage() {
 
               prose-strong:text-gray-900
               dark:prose-strong:text-white
+              dark:[&_strong]:!text-white
 
               prose-blockquote:text-gray-700
               dark:prose-blockquote:text-gray-300
@@ -179,6 +188,7 @@ export default function ArticleDetailPage() {
               prose-ul:my-6
               prose-ol:my-6
               prose-li:my-2
+              dark:[&_li]:!text-gray-200
               prose-li:marker:text-primary-600
               dark:prose-li:marker:text-primary-400
 
@@ -187,6 +197,7 @@ export default function ArticleDetailPage() {
 
               prose-a:text-primary-800
               dark:prose-a:text-primary-400
+              dark:[&_a]:!text-primary-400
               prose-a:no-underline
               hover:prose-a:underline
             "
