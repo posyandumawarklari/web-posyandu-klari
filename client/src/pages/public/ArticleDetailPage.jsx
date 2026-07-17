@@ -135,9 +135,62 @@ export default function ArticleDetailPage() {
           </div>
 
           {/* Isi Konten Artikel (Area yang Diperbaiki) */}
-          {/* Menambahkan break-words, w-full, overflow-x-hidden, dan memaksa p tag untuk whitespace-normal */}
-          <div className="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none w-full break-words overflow-x-hidden mb-16 prose-headings:font-heading prose-headings:font-bold prose-a:text-primary-800 prose-img:rounded-2xl [&_*]:whitespace-normal"
-               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }} 
+          <div 
+            className="
+              prose
+              prose-lg
+              md:prose-xl
+              max-w-none
+              w-full
+              overflow-x-hidden
+              mb-16
+
+              whitespace-normal
+              break-normal
+
+              dark:prose-invert
+
+              prose-p:text-gray-700
+              dark:prose-p:text-gray-200
+              prose-p:mb-6
+              prose-p:leading-8
+
+              prose-headings:text-gray-900
+              dark:prose-headings:text-white
+              prose-headings:mt-10
+              prose-headings:mb-5
+              prose-headings:font-heading 
+              prose-headings:font-bold
+
+              prose-strong:text-gray-900
+              dark:prose-strong:text-white
+
+              prose-blockquote:text-gray-700
+              dark:prose-blockquote:text-gray-300
+              prose-blockquote:my-8
+
+              prose-code:text-pink-600
+              dark:prose-code:text-pink-400
+
+              prose-ul:list-disc
+              prose-ol:list-decimal
+              prose-ul:pl-6
+              prose-ol:pl-6
+              prose-ul:my-6
+              prose-ol:my-6
+              prose-li:my-2
+              prose-li:marker:text-primary-600
+              dark:prose-li:marker:text-primary-400
+
+              prose-img:my-8
+              prose-img:rounded-2xl
+
+              prose-a:text-primary-800
+              dark:prose-a:text-primary-400
+              prose-a:no-underline
+              hover:prose-a:underline
+            "
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }} 
           />
 
           {/* ── 3. Footer Artikel (Tags & Social Share) ── */}

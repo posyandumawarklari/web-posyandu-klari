@@ -20,7 +20,7 @@ app.use(cors({
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // higher limit in development
   message: {
     success: false,
     message: 'Terlalu banyak permintaan, coba lagi nanti.',

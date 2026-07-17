@@ -147,9 +147,18 @@ export default function ArticleFormPage() {
     setIsUploading(true);
 
     try {
+      // Clean up HTML before saving
+      // 1. Replace empty paragraphs with paragraphs containing a break to preserve spacing
+      // 2. Replace non-breaking spaces with normal spaces to allow natural word wrapping
+      let cleanContent = formData.content || '';
+      cleanContent = cleanContent
+        .replace(/<p><\/p>/g, '<p><br></p>')
+        .replace(/<p class="[^"]*"><\/p>/g, '<p><br></p>')
+        .replace(/&nbsp;/g, ' ');
+
       const payload = { 
         title: formData.title,
-        content: formData.content,
+        content: cleanContent,
         excerpt: formData.excerpt,
         categoryId: formData.categoryId,
         tags: formData.tags || [],
