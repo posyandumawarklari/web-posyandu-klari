@@ -84,7 +84,6 @@ export default function App() {
             <Route path="kategori" element={<AdminCategories />} />
             <Route path="tag" element={<AdminTags />} />
             <Route path="program" element={<AdminPrograms />} />
-            <Route path="posyandu" element={<AdminPosyanduPosts />} />
             <Route path="galeri" element={<AdminGallery />} />
             <Route path="jadwal" element={<AdminSchedules />} />
             <Route path="profil" element={<AdminProfile />} />

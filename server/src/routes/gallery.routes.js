@@ -11,7 +11,7 @@ router.get('/:id', galleryController.getById);
 
 // Admin and Cadre can upload
 router.post('/', verifyToken, authenticated, handleUpload('image'), validate(gallerySchema), galleryController.create);
-router.put('/:id', verifyToken, adminOnly, handleUpload('image'), validate(gallerySchema), galleryController.update);
-router.delete('/:id', verifyToken, adminOnly, galleryController.remove);
+router.put('/:id', verifyToken, authenticated, handleUpload('image'), validate(gallerySchema), galleryController.update);
+router.delete('/:id', verifyToken, authenticated, galleryController.remove);
 
 module.exports = router;

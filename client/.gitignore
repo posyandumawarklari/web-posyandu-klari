@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Seed Prisma
+server/prisma/seed-admin.ts
+server/prisma/seed-kader.ts
+server/prisma/seed-posyandu.js
+server/prisma/seed.js

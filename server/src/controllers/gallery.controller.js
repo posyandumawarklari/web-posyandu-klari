@@ -26,14 +26,14 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const gallery = await galleryService.update(req.params.id, req.body, req.file || null);
+    const gallery = await galleryService.update(req.params.id, req.body, req.file || null, req.user.id, req.user.role);
     sendSuccess(res, { message: 'Foto berhasil diperbarui.', data: gallery });
   } catch (error) { next(error); }
 };
 
 const remove = async (req, res, next) => {
   try {
-    await galleryService.remove(req.params.id);
+    await galleryService.remove(req.params.id, req.user.id, req.user.role);
     sendSuccess(res, { message: 'Foto berhasil dihapus.' });
   } catch (error) { next(error); }
 };

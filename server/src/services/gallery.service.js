@@ -25,8 +25,15 @@ const create = async (data, imageFile, userId) => {
   });
 };
 
-const update = async (id, data, imageFile) => {
+const update = async (id, data, imageFile, userId, userRole) => {
   const existing = await getById(id);
+  
+  if (userRole === 'CADRE' && existing.uploadedById !== userId) {
+    const e = new Error('Anda tidak memiliki akses untuk mengubah galeri ini');
+    e.statusCode = 403;
+    throw e;
+  }
+
   const updateData = { ...data };
   if (imageFile) {
     if (existing.imageUrl) await deleteImage(existing.imageUrl);
@@ -36,8 +43,15 @@ const update = async (id, data, imageFile) => {
   return galleryRepository.update(id, updateData);
 };
 
-const remove = async (id) => {
+const remove = async (id, userId, userRole) => {
   const gallery = await getById(id);
+
+  if (userRole === 'CADRE' && gallery.uploadedById !== userId) {
+    const e = new Error('Anda tidak memiliki akses untuk mengubah galeri ini');
+    e.statusCode = 403;
+    throw e;
+  }
+
   if (gallery.imageUrl) await deleteImage(gallery.imageUrl);
   return galleryRepository.remove(id);
 };

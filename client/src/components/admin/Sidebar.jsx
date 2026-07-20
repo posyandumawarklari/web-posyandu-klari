@@ -24,23 +24,23 @@ export default function Sidebar({ open, onClose }) {
 
   const basePath = isAdmin ? '/admin' : '/dashboard';
 
-  const menuItems = [
+  const commonItems = [
     { to: basePath, icon: LayoutDashboard, label: 'Dashboard', end: true },
     { to: `${basePath}/artikel`, icon: FileText, label: 'Artikel' },
     { to: `${basePath}/kategori`, icon: FolderOpen, label: 'Kategori' },
     { to: `${basePath}/tag`, icon: Tag, label: 'Tag' },
     { to: `${basePath}/program`, icon: Stethoscope, label: 'Program' },
-    { to: `${basePath}/posyandu`, icon: MapPin, label: 'Posyandu' },
-    { to: `${basePath}/galeri`, icon: Image, label: 'Galeri' },
     { to: `${basePath}/jadwal`, icon: CalendarDays, label: 'Jadwal' },
+    { to: `${basePath}/galeri`, icon: Image, label: 'Galeri' },
   ];
 
   const adminOnlyItems = [
+    { to: '/admin/posyandu', icon: MapPin, label: 'Data Posyandu' },
     { to: '/admin/pengguna', icon: Users, label: 'Pengguna' },
     { to: '/admin/pengaturan', icon: Settings, label: 'Pengaturan' },
   ];
 
-  const allItems = isAdmin ? [...menuItems, ...adminOnlyItems] : menuItems;
+  const allItems = isAdmin ? [...commonItems, ...adminOnlyItems] : commonItems;
 
   const sidebarContent = (
     <div className="flex flex-col h-full">
